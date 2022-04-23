@@ -23,7 +23,7 @@ func (c *MainController) Get() {
 		url := models.Url{}
 		o.QueryTable("url").Filter("ShortCode", code).One(&url)
 		// 判断是否为链接不是就展示信息
-		if url.OriginalUrl[0:7] == "http://" || url.OriginalUrl[0:8] == "https://" {
+		if len(url.OriginalUrl) > 7 && (url.OriginalUrl[0:7] == "http://" || url.OriginalUrl[0:8] == "https://") {
 			// 跳转
 			c.Redirect(url.OriginalUrl, 301)
 		} else {
@@ -46,7 +46,7 @@ func (c *MainController) Generate() {
 	shortcode := c.GetString("code")
 	originalurl := c.GetString("url")
 
-	if originalurl == "" {
+	if originalurl == "" || len(originalurl) > 500 || (len(shortcode) < 4 && len(shortcode) > 20) {
 		re["Code"] = -1
 		re["Message"] = "参数错误"
 		c.Data["json"] = &re
