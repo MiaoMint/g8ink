@@ -25,6 +25,7 @@ func (c *MainController) Get() {
 	}
 
 	c.Data["gnum"], _ = o.QueryTable("url").Count()
+	c.Data["unum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count()
 	c.TplName = "index.html"
 }
 
@@ -42,21 +43,6 @@ func (c *MainController) Generate() {
 		return
 	}
 
-	//生成code
-	if shortcode == "" {
-		shortcode = tools.Getshortcode(6)
-	} else {
-		//判断短代码是否存在
-		if tools.Codeexist(shortcode) {
-			re["Code"] = -1
-			re["Message"] = "该短链接已存在"
-			c.Data["json"] = &re
-			c.ServeJSON()
-			return
-		}
-	}
-
-	//插入数据库
 	//判断是否为封禁的ip
 	if tools.Isbanip(c.Ctx.Input.IP()) {
 		re["Code"] = -2
@@ -73,6 +59,20 @@ func (c *MainController) Generate() {
 		c.Data["json"] = &re
 		c.ServeJSON()
 		return
+	}
+
+	//生成code
+	if shortcode == "" {
+		shortcode = tools.Getshortcode(6)
+	} else {
+		//判断短代码是否存在
+		if tools.Codeexist(shortcode) {
+			re["Code"] = -1
+			re["Message"] = "该短链接已存在"
+			c.Data["json"] = &re
+			c.ServeJSON()
+			return
+		}
 	}
 
 	//插入数据

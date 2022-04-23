@@ -1,9 +1,50 @@
-body{
+body {
     margin: 80px auto;
     max-width: 600px;
 }
 
-.content{
+.content {
     min-height: 70vh;
     padding: 10px;
+}
+
+h1 {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.638);
+}
+
+#form {
+    display: flex;
+}
+
+#url {
+    width: 100%;
+    margin-right: 10px;
+}
+
+#shorturl {
+    height: 2rem;
+    line-height: 2rem;
+}
+
+#g {
+    border: none;
+    padding: 5px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.col {
+    display: flex;
+    justify-content: space-between;
+    color: #000000ba;
+}
+
+footer {
+    text-align: center;
+    color: #0000006e;
+}
+
+footer a {
+    color: #0000006e;
 }

@@ -21,11 +21,15 @@
         <input type="text" name="url" id="url">
         <input type="button" value="生成" id="g">
       </form>
-      <div id="shorturl">
-        已生成了{{.gnum}}个短链接
+      <div id="shorturl"></div>
+      <div class="col">
+        <div>您生成了{{.unum}}个短链接</div>
+        <div>本站共生成了{{.gnum}}个短链接</div>
       </div>
     </div>
-
+    <footer>
+      <p> © 2022-{{.year}} G8.INK | 由<a href="https://g8.ink/G3bXYU" target="_blank" >Erhecy</a> 打造 | <a href="https://g8.ink/kBdOlf">API文档</a> </p>
+    </footer>
     <script>
       $("#g").click(function () {
         $.ajax({
@@ -39,7 +43,7 @@
             if (result.Code == 200) {
               $("#shorturl").html(result.Shorturl)
               console.log(result.Shorturl)
-            }else{
+            } else {
               alert(result.Message)
             }
 
