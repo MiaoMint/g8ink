@@ -55,7 +55,7 @@ func (c *MainController) Generate() {
 		re["Message"] = "生成错误"
 	} else {
 		re["Code"] = 200
-		re["Shorturl"] = os.Getenv("HOST") + shortcode
+		re["Shorturl"] = os.Getenv("HOST") + "/" + shortcode
 		re["Message"] = "成功"
 	}
 
