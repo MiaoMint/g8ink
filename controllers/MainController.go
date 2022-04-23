@@ -3,6 +3,7 @@ package controllers
 import (
 	"g8url/models"
 	"g8url/tools"
+	"os"
 
 	"github.com/beego/beego/v2/client/orm"
 	beego "github.com/beego/beego/v2/server/web"
@@ -54,7 +55,7 @@ func (c *MainController) Generate() {
 		re["Message"] = "生成错误"
 	} else {
 		re["Code"] = 200
-		re["Shorturl"] = "g8.ink/" + shortcode
+		re["Shorturl"] = os.Getenv("HOST") + shortcode
 		re["Message"] = "成功"
 	}
 

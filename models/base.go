@@ -13,6 +13,7 @@ func init() {
 	orm.RegisterDriver("postgres", orm.DRPostgres)
 
 	dsn := os.Getenv("DSN")
+	logs.Info(dsn)
 	if dsn == "" {
 		dsn = "user=postgres password=root dbname=postgres host=127.0.0.1 port=5432 sslmode=disable"
 	}
