@@ -22,15 +22,20 @@ func (c *MainController) Get() {
 	if code != "" {
 		url := models.Url{}
 		o.QueryTable("url").Filter("ShortCode", code).One(&url)
-		// 判断是否为链接不是就展示信息
+		// 判断是否为链接是就跳转
 		if len(url.OriginalUrl) > 7 && (url.OriginalUrl[0:7] == "http://" || url.OriginalUrl[0:8] == "https://") {
 			// 跳转
 			c.Redirect(url.OriginalUrl, 301)
-		} else {
-			c.Data["data"] = url.OriginalUrl
-			c.TplName = "nourl.html"
 			return
 		}
+		// 如果原url内容为空则跳转首页
+		if url.OriginalUrl == "" {
+			c.Redirect("", 301)
+			return
+		}
+		c.Data["data"] = url.OriginalUrl
+		c.TplName = "nourl.html"
+		return
 	}
 
 	// 首页
