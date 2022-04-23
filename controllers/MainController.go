@@ -22,9 +22,18 @@ func (c *MainController) Get() {
 	if code != "" {
 		url := models.Url{}
 		o.QueryTable("url").Filter("ShortCode", code).One(&url)
-		c.Redirect(url.OriginalUrl, 301)
+		// 判断是否为链接不是就展示信息
+		if url.OriginalUrl[0:7] == "http://" || url.OriginalUrl[0:8] == "https://" {
+			// 跳转
+			c.Redirect(url.OriginalUrl, 301)
+		} else {
+			c.Data["data"] = url.OriginalUrl
+			c.TplName = "nourl.html"
+			return
+		}
 	}
 
+	// 首页
 	c.Data["gnum"], _ = o.QueryTable("url").Count()
 	c.Data["unum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count()
 	c.Data["year"] = time.Now().Year()
