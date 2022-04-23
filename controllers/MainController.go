@@ -30,7 +30,7 @@ func (c *MainController) Get() {
 		}
 		// 如果原url内容为空则跳转首页
 		if url.OriginalUrl == "" {
-			c.Redirect("", 301)
+			c.Redirect("/", 301)
 			return
 		}
 		c.Data["data"] = url.OriginalUrl

@@ -7,6 +7,7 @@ import (
 )
 
 func init() {
+	beego.ErrorController(&controllers.ErrorController{})              //错误处理
 	beego.Router("/", &controllers.MainController{}, "get:Get")        //首页
 	beego.Router("/:code", &controllers.MainController{}, "get:Get")   // 跳转
 	beego.Router("/g", &controllers.MainController{}, "post:Generate") //生成短链接
