@@ -42,14 +42,33 @@ func (c *MainController) Generate() {
 		return
 	}
 
+	//生成code
 	if shortcode == "" {
-		shortcode = tools.GetRandStr(6)
+		shortcode = tools.Getshortcode(6)
 	}
 
 	//插入数据库
-	o := orm.NewOrm()
-	url := models.Url{ShortCode: shortcode, OriginalUrl: originalurl, Ip: c.Ctx.Input.IP()}
-	_, err := o.Insert(&url)
+
+	//判断是否为封禁的ip
+	if tools.Isbanip(c.Ctx.Input.IP()) {
+		re["Code"] = -2
+		re["Message"] = "你已被封禁"
+		c.Data["json"] = &re
+		c.ServeJSON()
+		return
+	}
+
+	//判断是否为封禁的host
+	if tools.Isbanhost(originalurl) {
+		re["Code"] = -2
+		re["Message"] = "封禁的域名"
+		c.Data["json"] = &re
+		c.ServeJSON()
+		return
+	}
+
+	err := models.UrlInsert(shortcode, originalurl, c.Ctx.Input.IP())
+
 	if err != nil {
 		re["Code"] = -1
 		re["Message"] = "生成错误"
