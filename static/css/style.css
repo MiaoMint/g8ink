@@ -1,0 +1,9 @@
+body{
+    margin: 80px auto;
+    max-width: 600px;
+}
+
+.content{
+    min-height: 70vh;
+    padding: 10px;
+}

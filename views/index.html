@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>G8.INK短链接生成</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdn.staticfile.org/jquery/1.10.0/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <body>
+    <div class="content">
+      <header>
+        <h1>G8.INK短链接</h1>
+      </header>
+      <form id="form">
+        <input type="text" name="url" id="url">
+        <input type="button" value="生成" id="g">
+      </form>
+      <div id="shorturl">
+        已生成了{{.gnum}}个短链接
+      </div>
+    </div>
+
+    <script>
+      $("#g").click(function () {
+        $.ajax({
+          //几个参数需要注意一下
+          type: "POST",//方法类型
+          dataType: "json",//预期服务器返回的数据类型
+          url: "/g",//url
+          data: $('#form').serialize(),
+          success: function (result) {
+            // console.log(result);
+            if (result.Code == 200) {
+              $("#shorturl").html(result.Shorturl)
+              console.log(result.Shorturl)
+            }else{
+              alert(result.Message)
+            }
+
+          },
+          error: function () {
+            alert("异常！");
+          }
+        });
+      }
+      )
+    </script>
+  </body>
+
+</html>
