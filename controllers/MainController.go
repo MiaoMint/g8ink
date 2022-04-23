@@ -42,17 +42,18 @@ func (c *MainController) Generate() {
 		return
 	}
 
-	if tools.Codeexist(shortcode) {
-		re["Code"] = -1
-		re["Message"] = "该短链接已存在"
-		c.Data["json"] = &re
-		c.ServeJSON()
-		return
-	}
-
 	//生成code
 	if shortcode == "" {
 		shortcode = tools.Getshortcode(6)
+	} else {
+		//判断短代码是否存在
+		if tools.Codeexist(shortcode) {
+			re["Code"] = -1
+			re["Message"] = "该短链接已存在"
+			c.Data["json"] = &re
+			c.ServeJSON()
+			return
+		}
 	}
 
 	//插入数据库
@@ -74,6 +75,7 @@ func (c *MainController) Generate() {
 		return
 	}
 
+	//插入数据
 	err := models.UrlInsert(shortcode, originalurl, c.Ctx.Input.IP())
 
 	if err != nil {
