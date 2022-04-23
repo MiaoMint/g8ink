@@ -4,6 +4,7 @@ import (
 	"g8url/models"
 	"g8url/tools"
 	"os"
+	"time"
 
 	"github.com/beego/beego/v2/client/orm"
 	beego "github.com/beego/beego/v2/server/web"
@@ -26,6 +27,7 @@ func (c *MainController) Get() {
 
 	c.Data["gnum"], _ = o.QueryTable("url").Count()
 	c.Data["unum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count()
+	c.Data["year"] = time.Now().Year()
 	c.TplName = "index.html"
 }
 
