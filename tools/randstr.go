@@ -3,8 +3,6 @@ package tools
 import (
 	"math/rand"
 	"time"
-
-	"github.com/beego/beego/v2/client/orm"
 )
 
 //生成随机字符串
@@ -20,10 +18,9 @@ func GetRandStr(length int) string {
 }
 
 func Getshortcode(length int) string {
-	o := orm.NewOrm()
 	for {
 		code := GetRandStr(6)
-		if !o.QueryTable("url").Filter("ShortCode", code).Exist() {
+		if !Codeexist(code) {
 			return code
 		}
 	}

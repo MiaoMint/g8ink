@@ -42,13 +42,20 @@ func (c *MainController) Generate() {
 		return
 	}
 
+	if tools.Codeexist(shortcode) {
+		re["Code"] = -1
+		re["Message"] = "该短链接已存在"
+		c.Data["json"] = &re
+		c.ServeJSON()
+		return
+	}
+
 	//生成code
 	if shortcode == "" {
 		shortcode = tools.Getshortcode(6)
 	}
 
 	//插入数据库
-
 	//判断是否为封禁的ip
 	if tools.Isbanip(c.Ctx.Input.IP()) {
 		re["Code"] = -2
