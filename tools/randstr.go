@@ -17,6 +17,8 @@ func GetRandStr(length int) string {
 	return string(bytes)
 }
 
+//生成短代码，判断是否生成相同的段代码了
+//如果是则再次生成
 func Getshortcode(length int) string {
 	for {
 		code := GetRandStr(6)

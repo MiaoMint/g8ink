@@ -1,7 +1,20 @@
 body {
-    margin: 0 auto ;
+    margin: 0 auto;
     max-width: 600px;
 }
+
+body:before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: .1;
+    z-index: -1;
+    content: "";
+    position: fixed;
+    background: url(https://dl.picwall.cn/small/konachan/717592d583cc6904baa49a607396f9a3.jpg) center/cover;
+}
+
 
 .content {
     margin-top: 20vh;
@@ -12,6 +25,7 @@ body {
 h1 {
     text-align: center;
     color: rgba(0, 0, 0, 0.638);
+    margin-bottom: 3rem;
 }
 
 #form {
@@ -22,33 +36,35 @@ h1 {
     width: 100%;
     margin-right: 10px;
     border: none;
-    border-bottom: 1px #000 solid;
+    border-bottom: 1px rgb(0, 0, 0) solid;
     outline: none;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 15px;
 }
 
 #shorturl {
     height: 2rem;
-    line-height: 2rem;
+    margin-top: 10px;
+    color: rgba(248, 72, 72, 0.611);
 }
 
 #g {
     border: none;
-    padding: 5px 20px;
+    padding: 10px 30px;
     cursor: pointer;
     border-radius: 5px;
+    transition: 0.2s ease;
 }
 
-.col {
-    display: flex;
-    justify-content: space-between;
-    color: #000000ba;
+#g:hover{
+    transform: scale(1.1);
 }
 
 footer {
     text-align: center;
-    color: #0000006e;
+    color: rgba(0, 0, 0, 0.431);
 }
 
 footer a {
-    color: #0000006e;
+    color: rgba(0, 0, 0, 0.431);
 }
