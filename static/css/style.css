@@ -61,4 +61,5 @@ blockquote {
     border-left: 10px solid #ccc;
     margin: 1.5em 10px;
     padding: .5em 10px;
+    word-break: break-all;
 }
