@@ -51,7 +51,7 @@ func (c *MainController) Generate() {
 	shortcode := c.GetString("code")
 	originalurl := c.GetString("url")
 
-	if originalurl == "" || len(originalurl) > 500 || (len(shortcode) < 4 && len(shortcode) > 20) {
+	if originalurl == "" || len(originalurl) > 2000 || (len(shortcode) < 4 && len(shortcode) > 20) {
 		re["Code"] = -1
 		re["Message"] = "参数错误"
 		c.Data["json"] = &re
