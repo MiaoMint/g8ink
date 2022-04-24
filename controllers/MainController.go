@@ -16,7 +16,10 @@ type MainController struct {
 func (c *MainController) Get() {
 	code := c.Ctx.Input.Param(":code")
 	o := orm.NewOrm()
-	c.Data["WEB_BACKGROUND"], _ = beego.AppConfig.String("WEB_BACKGROUND") //网页背景
+	c.Data["WEB_BACKGROUND"], _ = beego.AppConfig.String("WEB_BACKGROUND")         //网页背景
+	c.Data["gnum"], _ = o.QueryTable("url").Count()                                //全站生成数量
+	c.Data["unum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count() //根据用户ip查找生成数量
+	c.Data["year"] = time.Now().Year()
 
 	//如果shortcode不等于空则在数据库里找是否存在
 	if code != "" {
@@ -39,9 +42,7 @@ func (c *MainController) Get() {
 	}
 
 	// 首页
-	c.Data["gnum"], _ = o.QueryTable("url").Count()                                //全站生成数量
-	c.Data["unum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count() //根据用户ip查找生成数量
-	c.Data["year"] = time.Now().Year()
+
 	c.TplName = "index.html"
 }
 
