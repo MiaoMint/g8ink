@@ -18,7 +18,7 @@ body:before {
 
 .content {
     margin-top: 20vh;
-    min-height: 80vh;
+    min-height: 70vh;
     padding: 0 20px;
 }
 
@@ -65,6 +65,13 @@ footer {
     color: rgba(0, 0, 0, 0.431);
 }
 
-footer a {
+ a {
     color: rgba(0, 0, 0, 0.431);
+}
+
+blockquote {
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: .5em 10px;
 }

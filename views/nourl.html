@@ -5,29 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>似乎目标不是链接</title>
-    <style>
-        body {
-            margin: 0 auto;
-            max-width: 600px;
-        }
-        blockquote {
-            background: #f9f9f9;
-            border-left: 10px solid #ccc;
-            margin: 1.5em 10px;
-            padding: .5em 10px;
-        }
-        .content{
-            padding: 0 15px;
-        }
-    </style>
 </head>
 
 <body>
     <div class="content">
+        <header>
+            <h1>G8.INK短链接</h1>
+        </header>
         <p>似乎目标不是链接，但是生成者留下了这个信息：</p>
         <blockquote>{{.data}}</blockquote>
-        <a href="/">返回首页</a>
+        <a href="/">我要生成</a>
     </div>
 </body>
 
