@@ -21,9 +21,9 @@ func GetRandStr(length int) string {
 //如果是则再次生成
 func Getshortcode(length int) string {
 	for {
-		code := GetRandStr(6)
-		if !Codeexist(code) {
-			return code
+		shortcode := GetRandStr(length)
+		if !Codeexist(shortcode) {
+			return shortcode
 		}
 	}
 }

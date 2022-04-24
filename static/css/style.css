@@ -3,19 +3,6 @@ body {
     max-width: 600px;
 }
 
-body:before {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: .1;
-    z-index: -1;
-    content: "";
-    position: fixed;
-    background: url(https://dl.picwall.cn/small/konachan/717592d583cc6904baa49a607396f9a3.jpg) center/cover;
-}
-
-
 .content {
     margin-top: 20vh;
     min-height: 70vh;
@@ -56,7 +43,7 @@ h1 {
     transition: 0.2s ease;
 }
 
-#g:hover{
+#g:hover {
     transform: scale(1.1);
 }
 
@@ -65,7 +52,7 @@ footer {
     color: rgba(0, 0, 0, 0.431);
 }
 
- a {
+a {
     color: rgba(0, 0, 0, 0.431);
 }
 

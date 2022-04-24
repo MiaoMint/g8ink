@@ -7,6 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
     <title>似乎目标不是链接</title>
+    <style>
+        body:before {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: .1;
+            z-index: -1;
+            content: "";
+            position: fixed;
+            background: url({{.WEB_BACKGROUND}}) center/cover;
+        }
+    </style>
 </head>
 
 <body>

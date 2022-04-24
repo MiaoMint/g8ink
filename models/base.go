@@ -5,6 +5,7 @@ import (
 
 	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/logs"
+	beego "github.com/beego/beego/v2/server/web"
 	_ "github.com/lib/pq"
 )
 
@@ -13,13 +14,14 @@ func init() {
 	orm.RegisterDriver("postgres", orm.DRPostgres)
 
 	//获取环境变量 DSN
-	DATABASE_URL := os.Getenv("DATABASE_URL")
-	logs.Info(DATABASE_URL)
-	if DATABASE_URL == "" {
-		DATABASE_URL = "user=postgres password=root dbname=postgres host=127.0.0.1 port=5432 sslmode=disable"
+	DATABASE_URL, err := beego.AppConfig.String("DATABASE_URL")
+	if err != nil {
+		logs.Error(err.Error())
+		os.Exit(1)
 	}
+	logs.Info(DATABASE_URL)
 	// 注册数据库
-	err := orm.RegisterDataBase("default", "postgres", DATABASE_URL)
+	err = orm.RegisterDataBase("default", "postgres", DATABASE_URL)
 	if err != nil {
 		logs.Error(err.Error())
 		os.Exit(1)

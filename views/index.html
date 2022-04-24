@@ -10,6 +10,19 @@
   <meta name="description" content="公开的API短链接！可以将长链接生成短链接,缩短网址后,淘宝短网址,您就可以在微博、邮件中分享您的短链接了! ">
   <link rel="stylesheet" href="/static/css/style.css">
   <script src="https://cdn.staticfile.org/jquery/1.10.0/jquery.min.js"></script>
+  <style>
+    body:before {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: .1;
+      z-index: -1;
+      content: "";
+      position: fixed;
+      background: url({{.WEB_BACKGROUND}}) center/cover;
+    }
+  </style>
 </head>
 
 <body>
@@ -37,29 +50,27 @@
     <script>
       $("#g").click(function () {
         $("#shorturl").html("请稍等...")
-        $("#g").attr("disabled","disable")
-        setTimeout(function () {
-          $.ajax({
-            //几个参数需要注意一下
-            type: "POST",//方法类型
-            dataType: "json",//预期服务器返回的数据类型
-            url: "/g",//url
-            data: $('#form').serialize(),
-            success: function (result) {
-              // console.log(result);
-              if (result.Code == 200) {
-                $("#shorturl").html(result.Shorturl)
-              } else {
-                $("#shorturl").html(result.Message)
-              }
-              $("#g").removeAttr("disabled")
-            },
-            error: function () {
-              alert("异常！");
-              $("#g").removeAttr("disabled")
+        $("#g").attr("disabled", "disable")
+        $.ajax({
+          //几个参数需要注意一下
+          type: "POST",//方法类型
+          dataType: "json",//预期服务器返回的数据类型
+          url: "/g",//url
+          data: $('#form').serialize(),
+          success: function (result) {
+            // console.log(result);
+            if (result.Code == 200) {
+              $("#shorturl").html(result.Shorturl)
+            } else {
+              $("#shorturl").html(result.Message)
             }
-          });
-        }, 500);
+            $("#g").removeAttr("disabled")
+          },
+          error: function () {
+            alert("异常！");
+            $("#g").removeAttr("disabled")
+          }
+        });
       }
       )
     </script>

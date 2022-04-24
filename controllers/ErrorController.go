@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"github.com/beego/beego/v2/server/web"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 type ErrorController struct {
-	web.Controller
+	beego.Controller
 }
 
 func (c *ErrorController) Error404() {

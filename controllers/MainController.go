@@ -3,7 +3,6 @@ package controllers
 import (
 	"g8ink/models"
 	"g8ink/tools"
-	"os"
 	"time"
 
 	"github.com/beego/beego/v2/client/orm"
@@ -17,6 +16,7 @@ type MainController struct {
 func (c *MainController) Get() {
 	code := c.Ctx.Input.Param(":code")
 	o := orm.NewOrm()
+	c.Data["WEB_BACKGROUND"], _ = beego.AppConfig.String("WEB_BACKGROUND") //网页背景
 
 	//如果shortcode不等于空则在数据库里找是否存在
 	if code != "" {
@@ -39,19 +39,28 @@ func (c *MainController) Get() {
 	}
 
 	// 首页
-	c.Data["gnum"], _ = o.QueryTable("url").Count()
-	c.Data["unum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count()
+	c.Data["gnum"], _ = o.QueryTable("url").Count()                                //全站生成数量
+	c.Data["unum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count() //根据用户ip查找生成数量
 	c.Data["year"] = time.Now().Year()
 	c.TplName = "index.html"
 }
 
 func (c *MainController) Generate() {
+	// 定义返回数据的变量
 	re := make(map[string]interface{})
+
+	// 获取设定
+	HOST, _ := beego.AppConfig.String("HOST")
+	MAX_URL, _ := beego.AppConfig.Int("MAX_URL")
+	MAX_SHORTCODE, _ := beego.AppConfig.Int("MAX_SHORTCODE")
+	MIN_SHORTCODE, _ := beego.AppConfig.Int("MIN_SHORTCODE")
+	RAND_SHORTCODE, _ := beego.AppConfig.Int("RAND_SHORTCODE")
+
 	//获取表单数据
 	shortcode := c.GetString("code")
 	originalurl := c.GetString("url")
 
-	if originalurl == "" || len(originalurl) > 2000 || (len(shortcode) < 4 && len(shortcode) > 20) {
+	if originalurl == "" || len(originalurl) > MAX_URL || (len(shortcode) < MIN_SHORTCODE && len(shortcode) > MAX_SHORTCODE) {
 		re["Code"] = -1
 		re["Message"] = "参数错误"
 		c.Data["json"] = &re
@@ -77,9 +86,20 @@ func (c *MainController) Generate() {
 		return
 	}
 
+	// 判断是否已经生成该url
+	existshortcode := tools.Urlexist(originalurl)
+	if existshortcode != "" {
+		re["Code"] = 200
+		re["Shorturl"] = HOST + "/" + existshortcode
+		re["Message"] = "成功"
+		c.Data["json"] = &re
+		c.ServeJSON()
+		return
+	}
+
 	//生成code
 	if shortcode == "" {
-		shortcode = tools.Getshortcode(6)
+		shortcode = tools.Getshortcode(RAND_SHORTCODE)
 	} else {
 		//判断短代码是否存在
 		if tools.Codeexist(shortcode) {
@@ -99,7 +119,7 @@ func (c *MainController) Generate() {
 		re["Message"] = "生成错误"
 	} else {
 		re["Code"] = 200
-		re["Shorturl"] = os.Getenv("HOST") + "/" + shortcode
+		re["Shorturl"] = HOST + "/" + shortcode
 		re["Message"] = "成功"
 	}
 
