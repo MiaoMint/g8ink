@@ -1,6 +1,6 @@
 FROM golang:latest
-WORKDIR $GOPATH/src/github.com/g8url
-ADD . $GOPATH/src/github.com/g8url
+WORKDIR $GOPATH/src/github.com/g8ink
+ADD . $GOPATH/src/github.com/g8ink
 RUN go build .
 EXPOSE 8080
-ENTRYPOINT ["./g8url"]
+ENTRYPOINT ["./g8ink"]

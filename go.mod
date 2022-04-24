@@ -1,4 +1,4 @@
-module g8url
+module g8ink
 
 go 1.18
 

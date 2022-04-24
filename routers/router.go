@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"g8url/controllers"
+	"g8ink/controllers"
 
 	beego "github.com/beego/beego/v2/server/web"
 )

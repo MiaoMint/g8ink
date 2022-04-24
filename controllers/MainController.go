@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"g8url/models"
-	"g8url/tools"
+	"g8ink/models"
+	"g8ink/tools"
 	"os"
 	"time"
 
