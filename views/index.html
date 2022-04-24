@@ -24,7 +24,7 @@
         <input type="button" value="生成" id="g">
       </form>
       <div id="shorturl"></div>
-     
+
     </div>
     <footer>
       <p>
@@ -36,25 +36,30 @@
     </footer>
     <script>
       $("#g").click(function () {
-        $.ajax({
-          //几个参数需要注意一下
-          type: "POST",//方法类型
-          dataType: "json",//预期服务器返回的数据类型
-          url: "/g",//url
-          data: $('#form').serialize(),
-          success: function (result) {
-            // console.log(result);
-            if (result.Code == 200) {
-              $("#shorturl").html(result.Shorturl)
-            } else {
-              $("#shorturl").html(result.Message)
+        $("#shorturl").html("请稍等...")
+        $("#g").attr("disabled","disable")
+        setTimeout(function () {
+          $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/g",//url
+            data: $('#form').serialize(),
+            success: function (result) {
+              // console.log(result);
+              if (result.Code == 200) {
+                $("#shorturl").html(result.Shorturl)
+              } else {
+                $("#shorturl").html(result.Message)
+              }
+              $("#g").removeAttr("disabled")
+            },
+            error: function () {
+              alert("异常！");
+              $("#g").removeAttr("disabled")
             }
-
-          },
-          error: function () {
-            alert("异常！");
-          }
-        });
+          });
+        }, 500);
       }
       )
     </script>
