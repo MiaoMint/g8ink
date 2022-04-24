@@ -21,6 +21,9 @@ h1 {
 #url {
     width: 100%;
     margin-right: 10px;
+    border: none;
+    border-bottom: 1px #000 solid;
+    outline: none;
 }
 
 #shorturl {
