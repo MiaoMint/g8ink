@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/validation"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -62,9 +63,19 @@ func (c *MainController) Generate() {
 	shortcode := c.GetString("code")
 	originalurl := c.GetString("url")
 
-	if originalurl == "" || len(originalurl) > MAX_URL || (len(shortcode) < MIN_SHORTCODE && len(shortcode) > MAX_SHORTCODE) {
+	valid := validation.Validation{}
+
+	valid.AlphaNumeric(shortcode, "code")
+	if shortcode != "" {
+		valid.MinSize(shortcode, MIN_SHORTCODE, "code")
+		valid.MaxSize(shortcode, MAX_SHORTCODE, "code")
+	}
+	valid.Required(originalurl, "url")
+	valid.MaxSize(originalurl, MAX_URL, "url")
+
+	if valid.HasErrors() {
 		re["Code"] = -1
-		re["Message"] = "参数错误"
+		re["Message"] = "参数错误" + valid.Errors[0].String()
 		c.ServeJSON()
 		return
 	}
@@ -106,6 +117,7 @@ func (c *MainController) Generate() {
 			c.ServeJSON()
 			return
 		}
+
 	}
 
 	//插入数据

@@ -4,6 +4,7 @@ import (
 	"g8ink/models"
 	"g8ink/tools"
 	"math"
+	"strconv"
 
 	"github.com/beego/beego/v2/client/orm"
 	beego "github.com/beego/beego/v2/server/web"
@@ -14,6 +15,7 @@ type AdminController struct {
 }
 
 var ADMIN_LOGIN_PASS, _ = beego.AppConfig.String("ADMIN_LOGIN_PASS")
+var nowpage int
 
 func (c *AdminController) Login() {
 	c.Data["title"] = "登录"
@@ -53,7 +55,6 @@ func (c *AdminController) Home() {
 	//获取link列表
 	url := []models.Url{}
 	linkpage, _ := c.GetInt("linkpage")
-	var nowpage int
 
 	if linkpage == 1 || linkpage == 0 {
 		linkpage = 0
@@ -90,7 +91,7 @@ func (c *AdminController) DeleteLink() {
 	if err != nil {
 		c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg="+err.Error()+"#link", 302)
 	}
-	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg=删除成功#link", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg=删除成功&linkpage="+strconv.Itoa(nowpage)+"#link", 302)
 }
 
 //添加ban
