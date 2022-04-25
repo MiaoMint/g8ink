@@ -20,6 +20,7 @@ func main() {
 		}
 	}
 	beego.InsertFilter("/admin/api/*", beego.BeforeRouter, FilterUser)
+	beego.InsertFilter("/admin/home", beego.BeforeRouter, FilterUser)
 
 	beego.Run()
 }
