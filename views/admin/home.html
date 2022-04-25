@@ -47,7 +47,7 @@
                     <td>{{.Ip}}</td>
                     <td>{{.Time}}</td>
                     <td>
-                        <a href="/admin/api/DeleteLink?id={{.Id}}"
+                        <a href="/admin/{{$.Adminurl}}/api/DeleteLink?id={{.Id}}"
                             class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" mdui-tooltip="{content: '删除'}">
                             <i class="mdui-icon material-icons">delete</i>
                         </a>
@@ -64,11 +64,11 @@
             <p>共{{.gnum}}短链接—共{{.Linkpagenum}}页—当前{{.Linkpage}}页</p>
         </div>
         <div>
-            <a href="/admin/home?linkpage={{.Linkpreviouspage}}"
+            <a href="/admin/{{$.Adminurl}}/home?linkpage={{.Linkpreviouspage}}"
                 class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" mdui-tooltip="{content: '上一页'}">
                 <i class="mdui-icon material-icons">navigate_before</i>
             </a>
-            <a href="/admin/home?linkpage={{.Linknextpage}}" class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple"
+            <a href="/admin/{{$.Adminurl}}/home?linkpage={{.Linknextpage}}" class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple"
                 mdui-tooltip="{content: '下一页'}">
                 <i class="mdui-icon material-icons">navigate_next</i>
             </a>
@@ -78,7 +78,7 @@
 </div>
 <div id="ban">
     <div class="mdui-m-b-3">
-        <form action="/admin/api/AddBan" class="mdui-col" method="post">
+        <form action="/admin/{{$.Adminurl}}/api/AddBan" class="mdui-col" method="post">
             <div class="mdui-valign">
                 <select class="mdui-select" name="Type" mdui-select>
                     <option value="ip">ip</option>
@@ -113,7 +113,7 @@
                     <td>{{.Target}}</td>
                     <td>{{.Time}}</td>
                     <td>
-                        <a href="/admin/api/DeleteBan?id={{.Id}}"
+                        <a href="/admin/{{$.Adminurl}}/api/DeleteBan?id={{.Id}}"
                             class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" mdui-tooltip="{content: '删除'}">
                             <i class="mdui-icon material-icons">delete</i>
                         </a>

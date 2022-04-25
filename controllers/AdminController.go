@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"g8ink/models"
+	"g8ink/tools"
 	"math"
 
 	"github.com/beego/beego/v2/client/orm"
@@ -21,14 +22,14 @@ func (c *AdminController) Login() {
 	if c.GetSession("Password") != ADMIN_LOGIN_PASS {
 		c.TplName = "admin/login.html"
 	} else {
-		c.Redirect("/admin/home", 302)
+		c.Redirect("/admin/"+tools.GetAdminUrl()+"/home", 302)
 	}
 
 	// 登录请求
 	if c.Ctx.Input.Method() == "POST" {
 		if c.GetString("Password") == ADMIN_LOGIN_PASS {
 			c.SetSession("Password", ADMIN_LOGIN_PASS)
-			c.Redirect("/admin/home", 302)
+			c.Redirect("/admin/"+tools.GetAdminUrl()+"/home", 302)
 		} else {
 			c.Data["remessage"] = "密码错误"
 		}
@@ -77,6 +78,8 @@ func (c *AdminController) Home() {
 	// link列表上一页页码
 	c.Data["Linkpreviouspage"] = nowpage - 1
 
+	c.Data["Adminurl"] = tools.GetAdminUrl()
+
 	c.TplName = "admin/home.html"
 }
 
@@ -85,9 +88,9 @@ func (c *AdminController) DeleteLink() {
 	Id := c.GetString("id")
 	err := models.UrlDelete(Id)
 	if err != nil {
-		c.Redirect("/admin/home?msg="+err.Error()+"#link", 302)
+		c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg="+err.Error()+"#link", 302)
 	}
-	c.Redirect("/admin/home?msg=删除成功#link", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg=删除成功#link", 302)
 }
 
 //添加ban
@@ -96,9 +99,9 @@ func (c *AdminController) AddBan() {
 	Type := c.GetString("Type")
 	err := models.BanInsert(Type, Target)
 	if err != nil {
-		c.Redirect("/admin/home?msg="+err.Error()+"#ban", 302)
+		c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg="+err.Error()+"#ban", 302)
 	}
-	c.Redirect("/admin/home?msg=添加成功#ban", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg=添加成功#ban", 302)
 }
 
 //删除ban
@@ -106,7 +109,7 @@ func (c *AdminController) DeleteBan() {
 	Id := c.GetString("id")
 	err := models.BanDelete(Id)
 	if err != nil {
-		c.Redirect("/admin/home?msg="+err.Error()+"#ban", 302)
+		c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg="+err.Error()+"#ban", 302)
 	}
-	c.Redirect("/admin/home?msg=删除成功#ban", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg=删除成功#ban", 302)
 }
