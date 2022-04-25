@@ -15,12 +15,14 @@ func main() {
 
 	//过滤未登录的
 	var FilterUser = func(ctx *context.Context) {
-		if ctx.GetCookie("Password") != ADMIN_LOGIN_PASS {
+		if ctx.Input.Session("Password") != ADMIN_LOGIN_PASS {
 			ctx.Redirect(301, "/")
 		}
 	}
 	beego.InsertFilter("/admin/api/*", beego.BeforeRouter, FilterUser)
 	beego.InsertFilter("/admin/home", beego.BeforeRouter, FilterUser)
+
+	// orm.Debug = true
 
 	beego.Run()
 }

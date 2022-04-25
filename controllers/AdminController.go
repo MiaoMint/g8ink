@@ -18,7 +18,7 @@ func (c *AdminController) Login() {
 	c.Data["title"] = "登录"
 	c.Layout = "admin/index.html"
 	// 判断是否登录 登录了302到后台首页
-	if c.Ctx.GetCookie("Password") != ADMIN_LOGIN_PASS {
+	if c.GetSession("Password") != ADMIN_LOGIN_PASS {
 		c.TplName = "admin/login.html"
 	} else {
 		c.Redirect("/admin/home", 302)
@@ -27,7 +27,7 @@ func (c *AdminController) Login() {
 	// 登录请求
 	if c.Ctx.Input.Method() == "POST" {
 		if c.GetString("Password") == ADMIN_LOGIN_PASS {
-			c.Ctx.SetCookie("Password", ADMIN_LOGIN_PASS)
+			c.SetSession("Password", ADMIN_LOGIN_PASS)
 			c.Redirect("/admin/home", 302)
 		} else {
 			c.Data["remessage"] = "密码错误"
@@ -52,23 +52,30 @@ func (c *AdminController) Home() {
 	//获取link列表
 	url := []models.Url{}
 	linkpage, _ := c.GetInt("linkpage")
-	if linkpage == 0 {
-		linkpage = 1
+	var nowpage int
+
+	if linkpage == 1 || linkpage == 0 {
+		linkpage = 0
+		nowpage = 1
+	} else {
+		linkpage = linkpage - 1
+		nowpage = linkpage + 1
 	}
-	o.QueryTable("url").Limit(30, linkpage*30).All(&url)
+
+	o.QueryTable("url").OrderBy("-Id").Limit(20, linkpage*20).All(&url)
 	c.Data["Linklist"] = &url
 
 	//link列表页数
-	c.Data["Linkpagenum"] = math.Ceil(float64(c.Data["gnum"].(int64)) / (float64)(30))
+	c.Data["Linkpagenum"] = math.Ceil(float64(c.Data["gnum"].(int64)) / (float64)(20))
 
 	// lnik列表当前页码
-	c.Data["Linkpage"] = linkpage
+	c.Data["Linkpage"] = nowpage
 
 	// link列表下一页页码
-	c.Data["Linknextpage"] = linkpage + 1
+	c.Data["Linknextpage"] = nowpage + 1
 
 	// link列表上一页页码
-	c.Data["Linkpreviouspage"] = linkpage - 1
+	c.Data["Linkpreviouspage"] = nowpage - 1
 
 	c.TplName = "admin/home.html"
 }
