@@ -65,6 +65,7 @@ func (c *MainController) Generate() {
 	if originalurl == "" || len(originalurl) > MAX_URL || (len(shortcode) < MIN_SHORTCODE && len(shortcode) > MAX_SHORTCODE) {
 		re["Code"] = -1
 		re["Message"] = "参数错误"
+		c.ServeJSON()
 		return
 	}
 
