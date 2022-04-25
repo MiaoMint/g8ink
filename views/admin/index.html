@@ -14,9 +14,16 @@
 </head>
 
 <body>
-    <div class="mdui-container" style="min-height: 100vh;">
+    <div class="mdui-container">
         {{.LayoutContent}}
     </div>
+    {{if .remessage}}
+    <script>
+        mdui.snackbar({
+            message: '{{.remessage}}'
+        });
+    </script>
+    {{end}}
 </body>
 
 </html>

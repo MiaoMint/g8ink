@@ -12,7 +12,7 @@ type Ban struct {
 }
 
 func BanInsert(Type string, Target string) bool {
-	if Type == "ip" || Type == "host" {
+	if (Type == "ip" || Type == "host") && Target != "" {
 		o := orm.NewOrm()
 		_, err := o.Insert(&Ban{Type: Type, Target: Target})
 		return err == nil

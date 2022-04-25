@@ -43,8 +43,7 @@ func (c *AdminController) Home() {
 	c.Layout = "admin/index.html"
 	if c.Ctx.Input.Param(":path") == "home" {
 		o := orm.NewOrm()
-		c.Data["gnum"], _ = o.QueryTable("url").Count()                                //全站生成数量
-		c.Data["unum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count() //根据用户ip查找生成数量
+		c.Data["gnum"], _ = o.QueryTable("url").Count() //全站生成数量
 
 		ban := []models.Ban{}
 		o.QueryTable("ban").All(&ban)
@@ -58,7 +57,11 @@ func (c *AdminController) Home() {
 func (c *AdminController) AddBan() {
 	Target := c.GetString("Target")
 	Type := c.GetString("Type")
-
+	// 判断是否登录
+	if c.Ctx.GetCookie("Password") != ADMIN_LOGIN_PASS {
+		c.Redirect("/", 302)
+		return
+	}
 	if models.BanInsert(Type, Target) {
 		c.Redirect("/admin/home?msg=添加成功#ban", 302)
 	}
