@@ -65,8 +65,8 @@ func (c *MainController) Generate() {
 
 	valid := validation.Validation{}
 
-	valid.AlphaNumeric(shortcode, "code")
 	if shortcode != "" {
+		valid.AlphaNumeric(shortcode, "code")
 		valid.MinSize(shortcode, MIN_SHORTCODE, "code")
 		valid.MaxSize(shortcode, MAX_SHORTCODE, "code")
 	}
