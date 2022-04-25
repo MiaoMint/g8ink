@@ -55,7 +55,7 @@ func (c *AdminController) Home() {
 	if linkpage == 0 {
 		linkpage = 1
 	}
-	o.QueryTable("url").Limit(30, linkpage).All(&url)
+	o.QueryTable("url").Limit(linkpage, 30).All(&url)
 	c.Data["Linklist"] = &url
 
 	//link列表页数
