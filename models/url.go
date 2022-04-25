@@ -27,3 +27,9 @@ func UrlInsert(shortcode string, originalurl string, ip string) error {
 	_, err := o.Insert(&Url{ShortCode: shortcode, OriginalUrl: originalurl, Ip: ip})
 	return err
 }
+
+func UrlDelete(Id string) error {
+	o := orm.NewOrm()
+	_, err := o.QueryTable("url").Filter("Id", Id).Delete()
+	return err
+}

@@ -22,6 +22,8 @@ func init() {
 	}
 	logs.Info("后台地址：", HOST+"/admin/"+ADMIN_URL)
 	beego.Router("/admin/"+ADMIN_URL, &controllers.AdminController{}, "get:Login;post:Login") //后台登录
-	beego.Router("/admin/:path", &controllers.AdminController{}, "get:Home")                  //后台首页
-	beego.Router("/admin/Api/AddBan", &controllers.AdminController{}, "post:AddBan")          //后台首页
+	beego.Router("/admin/home", &controllers.AdminController{}, "get:Home")                   //后台首页
+	beego.Router("/admin/api/AddBan", &controllers.AdminController{}, "post:AddBan")          //添加ban
+	beego.Router("/admin/api/DeleteBan", &controllers.AdminController{}, "get:DeleteBan")     //删除ban
+	beego.Router("/admin/api/DeleteLink", &controllers.AdminController{}, "get:DeleteLink")   //删除lnik
 }
