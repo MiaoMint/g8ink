@@ -1,0 +1,47 @@
+<div class="mdui-appbar">
+    <div class="mdui-tab mdui-color-indigo" mdui-tab>
+        <a href="#home" class="mdui-ripple mdui-ripple-white">后台首页</a>
+        <a href="#ban" class="mdui-ripple mdui-ripple-white">封禁管理</a>
+    </div>
+</div>
+
+<div class="mdui-m-t-3"></div>
+<div>{{.remessage}}</div>
+<div id="home">
+    总站{{.gnum}}生成数
+</div>
+
+<div id="ban">
+    <div class="mdui-m-b-3">
+        <form action="/admin/Api/AddBan" method="post">
+            <select class="mdui-select" name="Type" mdui-select>
+                <option value="ip">ip</option>
+                <option value="host">host</option>
+            </select>
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" type="text" name="Target" />
+            </div>
+        </form>
+    </div>
+
+    <div class="mdui-table-fluid">
+        <table class="mdui-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Type</th>
+                    <th>Target</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Banlist}}
+                <tr>
+                    <td>{{.Id}}</td>
+                    <td>{{.Type}}</td>
+                    <td>{{.Target}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</div>

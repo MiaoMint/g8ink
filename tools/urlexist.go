@@ -6,6 +6,7 @@ import (
 	"github.com/beego/beego/v2/client/orm"
 )
 
+//判断url是否已存在
 func Urlexist(url string) string {
 	o := orm.NewOrm()
 	ob_url := models.Url{}

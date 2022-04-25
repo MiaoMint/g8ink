@@ -24,7 +24,6 @@ type Url struct {
 
 func UrlInsert(shortcode string, originalurl string, ip string) error {
 	o := orm.NewOrm()
-	url := Url{ShortCode: shortcode, OriginalUrl: originalurl, Ip: ip}
-	_, err := o.Insert(&url)
+	_, err := o.Insert(&Url{ShortCode: shortcode, OriginalUrl: originalurl, Ip: ip})
 	return err
 }

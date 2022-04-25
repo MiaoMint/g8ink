@@ -49,6 +49,7 @@ func (c *MainController) Get() {
 func (c *MainController) Generate() {
 	// 定义返回数据的变量
 	re := make(map[string]interface{})
+	c.Data["json"] = &re
 
 	// 获取设定
 	HOST, _ := beego.AppConfig.String("HOST")
@@ -64,8 +65,6 @@ func (c *MainController) Generate() {
 	if originalurl == "" || len(originalurl) > MAX_URL || (len(shortcode) < MIN_SHORTCODE && len(shortcode) > MAX_SHORTCODE) {
 		re["Code"] = -1
 		re["Message"] = "参数错误"
-		c.Data["json"] = &re
-		c.ServeJSON()
 		return
 	}
 
@@ -73,7 +72,6 @@ func (c *MainController) Generate() {
 	if tools.Isbanip(c.Ctx.Input.IP()) {
 		re["Code"] = -2
 		re["Message"] = "你已被封禁"
-		c.Data["json"] = &re
 		c.ServeJSON()
 		return
 	}
@@ -82,7 +80,6 @@ func (c *MainController) Generate() {
 	if tools.Isbanhost(originalurl) {
 		re["Code"] = -2
 		re["Message"] = "封禁的域名"
-		c.Data["json"] = &re
 		c.ServeJSON()
 		return
 	}
@@ -93,7 +90,6 @@ func (c *MainController) Generate() {
 		re["Code"] = 200
 		re["Shorturl"] = HOST + "/" + existshortcode
 		re["Message"] = "成功"
-		c.Data["json"] = &re
 		c.ServeJSON()
 		return
 	}
@@ -106,7 +102,6 @@ func (c *MainController) Generate() {
 		if tools.Codeexist(shortcode) {
 			re["Code"] = -1
 			re["Message"] = "该短链接已存在"
-			c.Data["json"] = &re
 			c.ServeJSON()
 			return
 		}
@@ -124,6 +119,5 @@ func (c *MainController) Generate() {
 		re["Message"] = "成功"
 	}
 
-	c.Data["json"] = &re
 	c.ServeJSON()
 }
