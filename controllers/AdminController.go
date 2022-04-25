@@ -55,11 +55,11 @@ func (c *AdminController) Home() {
 	if linkpage == 0 {
 		linkpage = 1
 	}
-	o.QueryTable("url").Limit(3, linkpage).All(&url)
+	o.QueryTable("url").Limit(30, linkpage).All(&url)
 	c.Data["Linklist"] = &url
 
 	//link列表页数
-	c.Data["Linkpagenum"] = math.Ceil(float64(c.Data["gnum"].(int64)) / (float64)(3))
+	c.Data["Linkpagenum"] = math.Ceil(float64(c.Data["gnum"].(int64)) / (float64)(30))
 
 	// lnik列表当前页码
 	c.Data["Linkpage"] = linkpage
