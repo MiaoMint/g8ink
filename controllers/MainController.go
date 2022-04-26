@@ -134,3 +134,10 @@ func (c *MainController) Generate() {
 
 	c.ServeJSON()
 }
+
+func (c *MainController) Robots() {
+	c.Ctx.Output.Context.WriteString(`# robots.txt
+User-agent: *
+Disallow: 
+`)
+}
