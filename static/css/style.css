@@ -1,11 +1,22 @@
 body {
     margin: 0 auto;
     max-width: 600px;
+    padding-top: 20vh;
+}
+
+body::before{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: .1;
+    z-index: -1;
+    content: "";
+    position: fixed;
 }
 
 .content {
-    margin-top: 20vh;
-    min-height: 70vh;
+    min-height: 55vh;
     padding: 0 20px;
 }
 

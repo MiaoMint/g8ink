@@ -24,7 +24,7 @@ var remessage string
 
 func (c *AdminController) Login() {
 	c.Data["title"] = "登录"
-	c.Layout = "admin/index.html"
+	c.Layout = "admin/layout.html"
 	// 判断是否登录 登录了302到后台首页
 	if c.GetSession("Password") != ADMIN_LOGIN_PASS {
 		c.TplName = "admin/login.html"
@@ -46,7 +46,7 @@ func (c *AdminController) Login() {
 func (c *AdminController) Home() {
 	c.Data["title"] = "后台管理"
 	c.Data["remessage"] = remessage
-	c.Layout = "admin/index.html"
+	c.Layout = "admin/layout.html"
 	o := orm.NewOrm()
 
 	//全站生成数量

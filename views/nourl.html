@@ -1,44 +1,5 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <title>似乎目标不是链接</title>
-    <style>
-        body:before {
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: .1;
-            z-index: -1;
-            content: "";
-            position: fixed;
-            background: url({{.WEB_BACKGROUND}}) center/cover;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="content">
-        <header>
-            <h1>G8.INK短链接</h1>
-        </header>
-        <p>似乎目标不是链接，但是生成者留下了这个信息：</p>
-        <blockquote>{{.data}}</blockquote>
-        <a href="/">我要生成</a>
-    </div>
-    <footer>
-        <p>
-        <div>您生成了{{.unum}}个短链接</div>
-        <div>本站共生成了{{.gnum}}个短链接</div>
-        </p>
-        <p> © 2022-{{.year}} G8.INK | 由<a href="https://g8.ink/G3bXYU" target="_blank">Erhecy</a> 打造 | <a
-            href="https://g8.ink/kBdOlf" target="_blank">API接口</a> </p>
-      </footer>
-</body>
-
-</html>
+<div class="content">
+    <p>似乎目标不是链接，但是生成者留下了这个信息：</p>
+    <blockquote>{{.data}}</blockquote>
+    <a href="/">我要生成</a>
+</div>

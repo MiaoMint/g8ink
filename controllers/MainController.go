@@ -16,6 +16,7 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
+	c.Layout = "layout.html"
 	code := c.Ctx.Input.Param(":code")
 	o := orm.NewOrm()
 	c.Data["WEB_BACKGROUND"], _ = beego.AppConfig.String("WEB_BACKGROUND")         //网页背景

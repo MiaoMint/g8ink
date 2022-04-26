@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>G8.INK短链接生成</title>
+  <meta name="keywords" content="G8INK,短链接,短网址,缩短网址,网址缩短,淘宝短网址,短链接生成器,短网址生成器,短链接API">
+  <meta name="description" content="公开的API短链接！可以将长链接生成短链接,缩短网址后,淘宝短网址,您就可以在微博、邮件中分享您的短链接了! ">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdn.staticfile.org/jquery/1.10.0/jquery.min.js"></script>
+  <style>
+    body:before {
+      background: url({{.WEB_BACKGROUND}}) center/cover;
+    }
+  </style>
+</head>
+
+
+<body>
+  <header>
+    <h1 id="title" title="点击自定义后缀">G8.INK短链接</h1>
+  </header>
+  {{.LayoutContent}}
+  <footer>
+    <p>
+    <div>您生成了{{.unum}}个短链接</div>
+    <div>本站共生成了{{.gnum}}个短链接</div>
+    </p>
+    <p> © 2022-{{.year}} G8.INK | 由<a href="https://g8.ink/G3bXYU" target="_blank">Erhecy</a> 打造 | <a
+        href="https://g8.ink/kBdOlf" target="_blank">API接口</a> </p>
+  </footer>
+
+</body>
+
+</html>
