@@ -23,7 +23,7 @@ func Isbanhost(host string) bool {
 	if RegularStr == "" {
 		return false
 	}
-	return valid.Match(host, regexp.MustCompile(RegularStr), "url").Ok
+	return valid.Match(strings.ToLower(host), regexp.MustCompile(strings.ToLower(RegularStr)), "url").Ok
 }
 
 // 生成正则表达式

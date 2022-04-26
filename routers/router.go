@@ -14,7 +14,7 @@ var HOST, _ = beego.AppConfig.String("HOST")
 func init() {
 	beego.ErrorController(&controllers.ErrorController{})                      //错误处理
 	beego.Router("/", &controllers.MainController{}, "get:Home;post:Generate") //首页,生成短链接
-	beego.Router("/:code", &controllers.MainController{}, "get:Get")           // 跳转
+	beego.Router("/:code", &controllers.MainController{}, "get:Home")          // 跳转
 	beego.Router("/robots.txt", &controllers.MainController{}, "get:Robots")   // robots.txt
 
 	// 提示信息
