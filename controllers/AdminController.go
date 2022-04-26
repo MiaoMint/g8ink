@@ -25,6 +25,7 @@ var remessage string
 func (c *AdminController) Login() {
 	c.Data["title"] = "登录"
 	c.Layout = "admin/layout.html"
+
 	// 判断是否登录 登录了302到后台首页
 	if c.GetSession("Password") != ADMIN_LOGIN_PASS {
 		c.TplName = "admin/login.html"
@@ -111,6 +112,8 @@ func (c *AdminController) AddBan() {
 		remessage = err.Error()
 	}
 	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home#ban", 302)
+	// 更新banhost正则
+	tools.GenerateRegularStr()
 }
 
 //删除ban
@@ -122,4 +125,6 @@ func (c *AdminController) DeleteBan() {
 		remessage = err.Error()
 	}
 	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home#ban", 302)
+	// 更新banhost正则
+	tools.GenerateRegularStr()
 }

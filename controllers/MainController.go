@@ -15,7 +15,7 @@ type MainController struct {
 	beego.Controller
 }
 
-func (c *MainController) Get() {
+func (c *MainController) Home() {
 	c.Layout = "layout.html"
 	code := c.Ctx.Input.Param(":code")
 	o := orm.NewOrm()
@@ -24,29 +24,29 @@ func (c *MainController) Get() {
 	c.Data["unum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count() //根据用户ip查找生成数量
 	c.Data["year"] = time.Now().Year()
 
-	//如果shortcode不等于空则在数据库里找是否存在
-	if code != "" {
-		url := models.Url{}
-		o.QueryTable("url").Filter("ShortCode", code).One(&url)
-		// 判断是否为链接是就跳转
-		if len(url.OriginalUrl) > 7 && (url.OriginalUrl[0:7] == "http://" || url.OriginalUrl[0:8] == "https://") {
-			// 跳转
-			c.Redirect(url.OriginalUrl, 301)
-			return
-		}
-		// 如果原url内容为空则跳转首页
-		if url.OriginalUrl == "" {
-			c.Redirect("/", 301)
-			return
-		}
-		c.Data["data"] = url.OriginalUrl
-		c.TplName = "nourl.html"
+	if code == "" {
+		// 首页
+		c.TplName = "index.html"
 		return
 	}
 
-	// 首页
+	//如果shortcode不等于空则在数据库里找是否存在
+	url := models.Url{}
+	o.QueryTable("url").Filter("ShortCode", code).One(&url)
+	// 判断是否为链接是就跳转
+	if len(url.OriginalUrl) > 7 && (url.OriginalUrl[0:7] == "http://" || url.OriginalUrl[0:8] == "https://") {
+		// 跳转
+		c.Redirect(url.OriginalUrl, 301)
+		return
+	}
+	// 如果原url内容为空则跳转首页
+	if url.OriginalUrl == "" {
+		c.Redirect("/", 301)
+		return
+	}
+	c.Data["data"] = url.OriginalUrl
+	c.TplName = "nourl.html"
 
-	c.TplName = "index.html"
 }
 
 func (c *MainController) Generate() {
