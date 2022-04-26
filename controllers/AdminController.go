@@ -15,7 +15,12 @@ type AdminController struct {
 }
 
 var ADMIN_LOGIN_PASS, _ = beego.AppConfig.String("ADMIN_LOGIN_PASS")
+
+// 短链接列表当前页面
 var nowpage int
+
+// 提示信息
+var remessage string
 
 func (c *AdminController) Login() {
 	c.Data["title"] = "登录"
@@ -40,7 +45,7 @@ func (c *AdminController) Login() {
 
 func (c *AdminController) Home() {
 	c.Data["title"] = "后台管理"
-	c.Data["remessage"] = c.GetString("msg")
+	c.Data["remessage"] = remessage
 	c.Layout = "admin/index.html"
 	o := orm.NewOrm()
 
@@ -82,16 +87,18 @@ func (c *AdminController) Home() {
 	c.Data["Adminurl"] = tools.GetAdminUrl()
 
 	c.TplName = "admin/home.html"
+	remessage = ""
 }
 
 //删除link
 func (c *AdminController) DeleteLink() {
 	Id := c.GetString("id")
 	err := models.UrlDelete(Id)
+	remessage = "删除成功"
 	if err != nil {
-		c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg="+err.Error()+"#link", 302)
+		remessage = err.Error()
 	}
-	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg=删除成功&linkpage="+strconv.Itoa(nowpage)+"#link", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?linkpage="+strconv.Itoa(nowpage)+"#link", 302)
 }
 
 //添加ban
@@ -99,18 +106,20 @@ func (c *AdminController) AddBan() {
 	Target := c.GetString("Target")
 	Type := c.GetString("Type")
 	err := models.BanInsert(Type, Target)
+	remessage = "添加成功"
 	if err != nil {
-		c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg="+err.Error()+"#ban", 302)
+		remessage = err.Error()
 	}
-	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg=添加成功#ban", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home#ban", 302)
 }
 
 //删除ban
 func (c *AdminController) DeleteBan() {
 	Id := c.GetString("id")
 	err := models.BanDelete(Id)
+	remessage = "删除成功"
 	if err != nil {
-		c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg="+err.Error()+"#ban", 302)
+		remessage = err.Error()
 	}
-	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?msg=删除成功#ban", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home#ban", 302)
 }
