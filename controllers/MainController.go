@@ -3,6 +3,7 @@ package controllers
 import (
 	"g8ink/models"
 	"g8ink/tools"
+	"strconv"
 	"time"
 
 	"github.com/beego/beego/v2/client/orm"
@@ -66,16 +67,16 @@ func (c *MainController) Generate() {
 	valid := validation.Validation{}
 
 	if shortcode != "" {
-		valid.AlphaNumeric(shortcode, "code")
-		valid.MinSize(shortcode, MIN_SHORTCODE, "code")
-		valid.MaxSize(shortcode, MAX_SHORTCODE, "code")
+		valid.AlphaNumeric(shortcode, "code").Message("自定义后缀只能为英文字符或数字")
+		valid.MinSize(shortcode, MIN_SHORTCODE, "code").Message("自定义后缀的最小长度为" + strconv.Itoa(MIN_SHORTCODE))
+		valid.MaxSize(shortcode, MAX_SHORTCODE, "code").Message("自定义后缀的最大长度为" + strconv.Itoa(MAX_SHORTCODE))
 	}
-	valid.Required(originalurl, "url")
-	valid.MaxSize(originalurl, MAX_URL, "url")
+	valid.Required(originalurl, "url").Message("url不能为空")
+	valid.MaxSize(originalurl, MAX_URL, "url").Message("url最大长度为" + strconv.Itoa(MAX_URL))
 
 	if valid.HasErrors() {
 		re["Code"] = -1
-		re["Message"] = "参数错误" + valid.Errors[0].String()
+		re["Message"] = "参数错误，" + valid.Errors[0].String()
 		c.ServeJSON()
 		return
 	}

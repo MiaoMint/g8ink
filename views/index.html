@@ -30,11 +30,12 @@
   <body>
     <div class="content">
       <header>
-        <h1>G8.INK短链接</h1>
+        <h1 id="title" title="点击自定义后缀">G8.INK短链接</h1>
       </header>
       <form id="form">
-        <input type="url" name="url" id="url" placeholder="请以http://或https://开头" autocomplete="off">
-        <input type="button" value="生成" id="g">
+        <input type="text" name="url" id="url" placeholder="请以http://或https://开头" autocomplete="off">
+        <input type="text" name="code" id="code" style="display: none;" placeholder="自定义后缀" autocomplete="off">
+        <input type="submit" value="生成" id="g" >
       </form>
       <div id="shorturl"></div>
 
@@ -48,14 +49,22 @@
           href="https://g8.ink/kBdOlf" target="_blank">API接口</a> </p>
     </footer>
     <script>
-      $("#g").click(function () {
+      $('#title').click(function () {
+        if ($("#url").css("display") === "none") {
+          $("#url").css("display", "block")
+          $("#code").css("display", "none")
+        } else {
+          $("#url").css("display", "none")
+          $("#code").css("display", "block")
+        }
+      })
+      $('#form').submit(function () {
         $("#shorturl").html("请稍等...")
         $("#g").attr("disabled", "disable")
         $.ajax({
-          //几个参数需要注意一下
-          type: "POST",//方法类型
-          dataType: "json",//预期服务器返回的数据类型
-          url: "/",//url
+          type: "POST",
+          dataType: "json",
+          url: "/",
           data: $('#form').serialize(),
           success: function (result) {
             // console.log(result);
@@ -71,8 +80,9 @@
             $("#g").removeAttr("disabled")
           }
         });
-      }
-      )
+        return false;
+      })
+
     </script>
   </body>
 
