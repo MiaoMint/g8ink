@@ -20,12 +20,14 @@ func init() {
 		os.Exit(1)
 	}
 	logs.Info(DATABASE_URL)
+
 	// 注册数据库
-	err = orm.RegisterDataBase("default", "postgres", DATABASE_URL)
+	err = orm.RegisterDataBase("default", "postgres", DATABASE_URL, orm.MaxIdleConnections(30), orm.MaxOpenConnections(100))
 	if err != nil {
 		logs.Error(err.Error())
 		os.Exit(1)
 	}
+
 	// 注册表
 	orm.RegisterModel(new(Url), new(Ban))
 
