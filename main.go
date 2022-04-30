@@ -27,7 +27,7 @@ func main() {
 			re := make(map[string]interface{})
 			re["Code"] = -2
 			re["Message"] = "太快啦~~要玩坏啦~＞︿＜"
-			ctx.Output.JSON(&re, false, false)
+			ctx.Output.JSON(&re, true, false)
 		}
 	}
 

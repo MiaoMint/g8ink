@@ -18,15 +18,15 @@ type ipCache struct {
 
 var li = make(map[string]ipCache)
 var LIMIT_TIMES, _ = beego.AppConfig.Int("LIMIT_TIMES")
-var Limit_Time, _ = beego.AppConfig.Int64("LIMIT_TIME")
-var Limit_Wait_Time, _ = beego.AppConfig.Int64("LIMIT_WAIT_TIME")
+var LIMIT_TIME, _ = beego.AppConfig.Int64("LIMIT_TIME")
+var LIMIT_WAIT_TIME, _ = beego.AppConfig.Int64("LIMIT_WAIT_TIME")
 
 func init() {
 	logs.Info("初始化定时清理")
 	var ipCacheClear = func(ctx context.Context) error {
 		for k, ic := range li {
 			// 判断当前时间距离创建的时间大于设定的时间并且被不是被惩罚用户时清理
-			if time.Now().Unix()-ic.Time >= Limit_Time && time.Now().Unix() > ic.WaitTime {
+			if time.Now().Unix()-ic.Time >= LIMIT_TIME && time.Now().Unix() > ic.WaitTime {
 				// logs.Info("删除缓存", ic.Time)
 				delete(li, k)
 			}
@@ -49,7 +49,7 @@ func LimitAccess(Ip string) bool {
 	}
 
 	// 判断是否在间隔时间内不在则清0
-	if li[Ip].Time != 0 && time.Now().Unix()-li[Ip].Time >= Limit_Time {
+	if li[Ip].Time != 0 && time.Now().Unix()-li[Ip].Time >= LIMIT_TIME {
 		li[Ip] = ipCache{Count: 1, Time: 0, WaitTime: 0}
 		return false
 	}
@@ -59,7 +59,7 @@ func LimitAccess(Ip string) bool {
 
 	// 判断次数和判断被封禁
 	if li[Ip].Count > LIMIT_TIMES || li[Ip].WaitTime != 0 {
-		li[Ip] = ipCache{WaitTime: time.Now().Unix() + Limit_Wait_Time}
+		li[Ip] = ipCache{WaitTime: time.Now().Unix() + LIMIT_WAIT_TIME}
 		return true
 	}
 	return false
