@@ -11,9 +11,9 @@ import (
 )
 
 var ADMIN_LOGIN_PASS, _ = beego.AppConfig.String("ADMIN_LOGIN_PASS")
-var Limit_Times, _ = beego.AppConfig.Int("Limit_Times")
-var Limit_Time, _ = beego.AppConfig.Int64("Limit_Time")
-var Limit_Wait_Time, _ = beego.AppConfig.Int64("Limit_Wait_Time")
+var Limit_Times, _ = beego.AppConfig.Int("LIMIT_TIMES")
+var Limit_Time, _ = beego.AppConfig.Int64("LIMIT_TIME")
+var Limit_Wait_Time, _ = beego.AppConfig.Int64("LIMIT_WAIT_TIME")
 
 func main() {
 
