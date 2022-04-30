@@ -11,9 +11,6 @@ import (
 )
 
 var ADMIN_LOGIN_PASS, _ = beego.AppConfig.String("ADMIN_LOGIN_PASS")
-var Limit_Times, _ = beego.AppConfig.Int("LIMIT_TIMES")
-var Limit_Time, _ = beego.AppConfig.Int64("LIMIT_TIME")
-var Limit_Wait_Time, _ = beego.AppConfig.Int64("LIMIT_WAIT_TIME")
 
 func main() {
 
@@ -26,7 +23,7 @@ func main() {
 
 	//过滤刷api的
 	var FilterTimes = func(ctx *context.Context) {
-		if ctx.Input.Method() == "POST" && tools.LimitAccess(ctx.Input.IP(), Limit_Times, Limit_Time, Limit_Wait_Time) {
+		if ctx.Input.Method() == "POST" && tools.LimitAccess(ctx.Input.IP()) {
 			re := make(map[string]interface{})
 			re["Code"] = -2
 			re["Message"] = "太快啦~~要玩坏啦~＞︿＜"
