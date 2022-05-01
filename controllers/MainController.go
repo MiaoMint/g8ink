@@ -138,8 +138,9 @@ func (c *MainController) Generate() {
 }
 
 func (c *MainController) Robots() {
-	c.Ctx.Output.Context.WriteString(`# robots.txt
+	rebotstxt := `# robots.txt
 User-agent: *
 Disallow: 
-`)
+	`
+	c.Ctx.WriteString(rebotstxt)
 }

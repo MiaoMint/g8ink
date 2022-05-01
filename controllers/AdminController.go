@@ -58,6 +58,9 @@ func (c *AdminController) Home() {
 	o.QueryTable("ban").All(&ban)
 	c.Data["Banlist"] = &ban
 
+	//获取临时被ban列表
+	c.Data["LimitIpList"] = tools.GetLimitIps()
+
 	//获取link列表
 	url := []models.Url{}
 	linkpage, _ := c.GetInt("linkpage")
@@ -127,4 +130,12 @@ func (c *AdminController) DeleteBan() {
 	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home#ban", 302)
 	// 更新banhost正则
 	tools.GenerateRegularStr()
+}
+
+// 解除临时限制ip
+func (c *AdminController) DeleteLimitIp() {
+	Ip := c.GetString("ip")
+	tools.DeleteLimitIp(Ip)
+	remessage = "解除限制成功"
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home#LimitIps", 302)
 }

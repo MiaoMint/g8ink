@@ -26,11 +26,11 @@ h1 {
     margin-bottom: 3rem;
 }
 
-#form {
+form {
     display: flex;
 }
 
-#url,#code {
+input[type="txt"] {
     width: 100%;
     margin-right: 10px;
     border: none;
@@ -46,7 +46,7 @@ h1 {
     color: rgba(248, 72, 72, 0.611);
 }
 
-#g {
+input[type="submit"] {
     border: none;
     padding: 10px 30px;
     cursor: pointer;
@@ -54,7 +54,7 @@ h1 {
     transition: 0.2s ease;
 }
 
-#g:hover {
+input[type="submit"]:hover {
     transform: scale(1.1);
 }
 

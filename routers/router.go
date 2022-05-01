@@ -21,9 +21,10 @@ func init() {
 	logs.Info("首页地址：", HOST)
 	logs.Info("后台地址：", HOST+"/admin/"+ADMIN_URL)
 
-	beego.Router("/admin/"+ADMIN_URL, &controllers.AdminController{}, "get:Login;post:Login")             //后台登录
-	beego.Router("/admin/"+ADMIN_URL+"/home", &controllers.AdminController{}, "get:Home")                 //后台首页
-	beego.Router("/admin/"+ADMIN_URL+"/api/AddBan", &controllers.AdminController{}, "post:AddBan")        //添加ban
-	beego.Router("/admin/"+ADMIN_URL+"/api/DeleteBan", &controllers.AdminController{}, "get:DeleteBan")   //删除ban
-	beego.Router("/admin/"+ADMIN_URL+"/api/DeleteLink", &controllers.AdminController{}, "get:DeleteLink") //删除lnik
+	beego.Router("/admin/"+ADMIN_URL, &controllers.AdminController{}, "get:Login;post:Login")                   //后台登录
+	beego.Router("/admin/"+ADMIN_URL+"/home", &controllers.AdminController{}, "get:Home")                       //后台首页
+	beego.Router("/admin/"+ADMIN_URL+"/api/AddBan", &controllers.AdminController{}, "post:AddBan")              //添加ban
+	beego.Router("/admin/"+ADMIN_URL+"/api/DeleteBan", &controllers.AdminController{}, "get:DeleteBan")         //删除ban
+	beego.Router("/admin/"+ADMIN_URL+"/api/DeleteLink", &controllers.AdminController{}, "get:DeleteLink")       //删除lnik
+	beego.Router("/admin/"+ADMIN_URL+"/api/DeleteLimitIp", &controllers.AdminController{}, "get:DeleteLimitIp") //解除临时限制ip
 }
