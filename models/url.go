@@ -18,8 +18,8 @@ type Url struct {
 	// 生成时的ip
 	Ip string
 
-	// 生成时的时间s
-	Time time.Time `orm:"auto_now_add;type(date)"`
+	// 生成时的时间
+	Time time.Time `orm:"auto_now_add;type(datetime)"`
 }
 
 func UrlInsert(shortcode string, originalurl string, ip string) error {

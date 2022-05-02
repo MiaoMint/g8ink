@@ -66,6 +66,7 @@ func LimitAccess(Ip string) bool {
 	return false
 }
 
+// 获取已经被限制的ip
 func GetLimitIps() map[string]ipCache {
 	limitip := make(map[string]ipCache)
 	for _, ic := range IP_CACHE {
@@ -76,6 +77,7 @@ func GetLimitIps() map[string]ipCache {
 	return limitip
 }
 
+// 解除被限制的ip
 func DeleteLimitIp(Ip string) {
 	IP_CACHE[Ip] = ipCache{Ip: Ip, Count: 1, Time: 0, WaitTime: 0}
 }

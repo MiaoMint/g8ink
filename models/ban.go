@@ -14,7 +14,7 @@ type Ban struct {
 	// 被ban的目标
 	Target string
 	// 生成时间
-	Time time.Time `orm:"auto_now_add;type(date)"`
+	Time time.Time `orm:"auto_now_add;type(datetime)"`
 }
 
 func BanInsert(Type string, Target string) error {
