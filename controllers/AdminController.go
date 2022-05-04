@@ -24,7 +24,6 @@ var remessage string
 
 func (c *AdminController) Login() {
 	c.Data["title"] = "登录"
-	c.Layout = "admin/layout.html"
 
 	// 判断是否登录 登录了302到后台首页
 	if c.GetSession("Password") != ADMIN_LOGIN_PASS {
@@ -47,6 +46,7 @@ func (c *AdminController) Login() {
 func (c *AdminController) Home() {
 	c.Data["title"] = "后台管理"
 	c.Data["remessage"] = remessage
+	c.Data["ishome"] = 1
 	c.Layout = "admin/layout.html"
 	o := orm.NewOrm()
 
@@ -61,9 +61,19 @@ func (c *AdminController) Home() {
 	//获取临时被ban列表
 	c.Data["LimitIpList"] = tools.GetLimitIps()
 
-	//获取link列表
+	c.Data["Adminurl"] = tools.GetAdminUrl()
+
+	c.TplName = "admin/home.html"
+	remessage = ""
+}
+
+// 短链接管理页面
+func (c *AdminController) Links() {
+	c.Data["title"] = "短链接管理"
+	c.Data["islinks"] = 1
+
 	url := []models.Url{}
-	linkpage, _ := c.GetInt("linkpage")
+	linkpage, _ := c.GetInt("page")
 
 	if linkpage == 1 || linkpage == 0 {
 		linkpage = 0
@@ -73,8 +83,12 @@ func (c *AdminController) Home() {
 		nowpage = linkpage + 1
 	}
 
+	o := orm.NewOrm()
+
 	o.QueryTable("url").OrderBy("-Id").Limit(20, linkpage*20).All(&url)
 	c.Data["Linklist"] = &url
+
+	c.Data["gnum"], _ = o.QueryTable("url").Count()
 
 	//link列表页数
 	c.Data["Linkpagenum"] = math.Ceil(float64(c.Data["gnum"].(int64)) / (float64)(20))
@@ -89,9 +103,48 @@ func (c *AdminController) Home() {
 	c.Data["Linkpreviouspage"] = nowpage - 1
 
 	c.Data["Adminurl"] = tools.GetAdminUrl()
-
-	c.TplName = "admin/home.html"
+	c.Data["remessage"] = remessage
+	c.Layout = "admin/layout.html"
+	c.TplName = "admin/links.html"
 	remessage = ""
+}
+
+// 封禁管理页面
+func (c *AdminController) Ban() {
+	c.Data["title"] = "封禁管理"
+	c.Data["isban"] = 1
+
+	o := orm.NewOrm()
+	c.Data["remessage"] = remessage
+
+	//获取被ban列表
+	ban := []models.Ban{}
+	o.QueryTable("ban").All(&ban)
+	c.Data["Banlist"] = &ban
+	c.Layout = "admin/layout.html"
+	c.TplName = "admin/ban.html"
+	c.Data["Adminurl"] = tools.GetAdminUrl()
+
+	remessage = ""
+
+}
+
+// 临时封禁管理页面
+func (c *AdminController) Limitips() {
+	c.Data["title"] = "临时封禁管理"
+	c.Data["islimitips"] = 1
+
+	c.Data["remessage"] = remessage
+
+	//获取临时被ban列表
+	c.Data["LimitIpList"] = tools.GetLimitIps()
+
+	c.Layout = "admin/layout.html"
+	c.TplName = "admin/limitips.html"
+	c.Data["Adminurl"] = tools.GetAdminUrl()
+
+	remessage = ""
+
 }
 
 //删除link
@@ -102,7 +155,7 @@ func (c *AdminController) DeleteLink() {
 	if err != nil {
 		remessage = err.Error()
 	}
-	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home?linkpage="+strconv.Itoa(nowpage)+"#link", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/links?page="+strconv.Itoa(nowpage), 302)
 }
 
 //添加ban
@@ -114,7 +167,7 @@ func (c *AdminController) AddBan() {
 	if err != nil {
 		remessage = err.Error()
 	}
-	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home#ban", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/ban", 302)
 	// 更新banhost正则
 	tools.GenerateRegularStr()
 }
@@ -127,7 +180,7 @@ func (c *AdminController) DeleteBan() {
 	if err != nil {
 		remessage = err.Error()
 	}
-	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home#ban", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/ban", 302)
 	// 更新banhost正则
 	tools.GenerateRegularStr()
 }
@@ -137,5 +190,5 @@ func (c *AdminController) DeleteLimitIp() {
 	Ip := c.GetString("ip")
 	tools.DeleteLimitIp(Ip)
 	remessage = "解除限制成功"
-	c.Redirect("/admin/"+tools.GetAdminUrl()+"/home#LimitIps", 302)
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/limitips", 302)
 }

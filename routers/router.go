@@ -23,6 +23,9 @@ func init() {
 
 	beego.Router("/admin/"+ADMIN_URL, &controllers.AdminController{}, "get:Login;post:Login")                   //后台登录
 	beego.Router("/admin/"+ADMIN_URL+"/home", &controllers.AdminController{}, "get:Home")                       //后台首页
+	beego.Router("/admin/"+ADMIN_URL+"/links", &controllers.AdminController{}, "get:Links")                     //短链接管理
+	beego.Router("/admin/"+ADMIN_URL+"/ban", &controllers.AdminController{}, "get:Ban")                         //封禁管理
+	beego.Router("/admin/"+ADMIN_URL+"/limitips", &controllers.AdminController{}, "get:Limitips")               //临时封禁管理
 	beego.Router("/admin/"+ADMIN_URL+"/api/AddBan", &controllers.AdminController{}, "post:AddBan")              //添加ban
 	beego.Router("/admin/"+ADMIN_URL+"/api/DeleteBan", &controllers.AdminController{}, "get:DeleteBan")         //删除ban
 	beego.Router("/admin/"+ADMIN_URL+"/api/DeleteLink", &controllers.AdminController{}, "get:DeleteLink")       //删除lnik

@@ -1,0 +1,48 @@
+<div id="ban">
+    <div class="mdui-m-b-2">
+        <form action="/admin/{{$.Adminurl}}/api/AddBan" class="mdui-col" method="post">
+            <div class="mdui-valign">
+                <select class="mdui-select" name="Type" mdui-select>
+                    <option value="ip">ip</option>
+                    <option value="host">host</option>
+                </select>
+                <div class="mdui-textfield mdui-m-l-2 mdui-m-b-1" style="width: 100%;">
+                    <input class="mdui-textfield-input" type="text" name="Target" placeholder="目标" required />
+                </div>
+                <button class="mdui-btn mdui-m-l-2 mdui-btn-dense mdui-color-red mdui-ripple">
+                    添加
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mdui-table-fluid">
+        <table class="mdui-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Type</th>
+                    <th>Target</th>
+                    <th>Time</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Banlist}}
+                <tr>
+                    <td>{{.Id}}</td>
+                    <td>{{.Type}}</td>
+                    <td>{{.Target}}</td>
+                    <td>{{.Time}}</td>
+                    <td>
+                        <a href="/admin/{{$.Adminurl}}/api/DeleteBan?id={{.Id}}"
+                            class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" mdui-tooltip="{content: '删除'}">
+                            <i class="mdui-icon material-icons">delete</i>
+                        </a>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</div>

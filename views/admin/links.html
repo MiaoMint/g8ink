@@ -1,0 +1,53 @@
+<div id="link">
+ 
+    <div class="mdui-table-fluid">
+        <table class="mdui-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>ShortCode</th>
+                    <th>OriginalUrl</th>
+                    <th>Ip</th>
+                    <th>Time</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Linklist}}
+                <tr>
+                    <td>{{.Id}}</td>
+                    <td class="mdui-typo"> <a href="/{{.ShortCode}}" target="_blank"
+                            rel="noopener noreferrer">{{.ShortCode}}</a></td>
+                    <td style="word-break: break-all;">{{.OriginalUrl}}</td>
+                    <td>{{.Ip}}</td>
+                    <td>{{.Time}}</td>
+                    <td>
+                        <a href="/admin/{{$.Adminurl}}/api/DeleteLink?id={{.Id}}"
+                            class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" mdui-tooltip="{content: '删除'}">
+                            <i class="mdui-icon material-icons">delete</i>
+                        </a>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+    <div class="mdui-m-t-2" style="display: flex;
+    align-items: center;
+    justify-content: space-between;">
+        <div>
+            <p>共{{.gnum}}短链接—共{{.Linkpagenum}}页—当前{{.Linkpage}}页</p>
+        </div>
+        <div>
+            <a href="/admin/{{$.Adminurl}}/links?page={{.Linkpreviouspage}}"
+                class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" mdui-tooltip="{content: '上一页'}">
+                <i class="mdui-icon material-icons">navigate_before</i>
+            </a>
+            <a href="/admin/{{$.Adminurl}}/links?page={{.Linknextpage}}" class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple"
+                mdui-tooltip="{content: '下一页'}">
+                <i class="mdui-icon material-icons">navigate_next</i>
+            </a>
+        </div>
+    </div>
+
+</div>

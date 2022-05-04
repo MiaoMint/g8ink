@@ -10,8 +10,43 @@
     <script src="https://cdn.staticfile.org/mdui/1.0.2/js/mdui.min.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-    <div class="mdui-container" style="width: 100%;">
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar">
+    <div class="mdui-toolbar mdui-color-indigo  mdui-appbar-fixed">
+        <a href="javascript:;" mdui-drawer="{target: '#left-drawer'}" class="mdui-btn mdui-btn-icon">
+            <i class="mdui-icon material-icons">menu</i>
+        </a>
+        <span class="mdui-typo-title">G8INK-后台管理</span>
+        <div class="mdui-toolbar-spacer"></div>
+        <a href="/" target="_blank" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '首页'}">
+            <i class="mdui-icon material-icons">home</i>
+        </a>
+    </div>
+    <div class="mdui-drawer" id="left-drawer">
+        <ul class="mdui-list">
+            <a href="/admin/{{$.Adminurl}}/home"
+                class="mdui-list-item mdui-ripple  {{if .ishome}} mdui-list-item-active  {{end}}">
+                <i class="mdui-list-item-icon mdui-icon material-icons">home</i>
+                <div class="mdui-list-item-content">首页</div>
+            </a>
+            <a href="/admin/{{$.Adminurl}}/links"
+                class="mdui-list-item mdui-ripple {{if .islinks}} mdui-list-item-active  {{end}}">
+                <i class="mdui-list-item-icon mdui-icon material-icons">link</i>
+                <div class="mdui-list-item-content">短链接管理</div>
+            </a>
+            <a href="/admin/{{$.Adminurl}}/ban"
+                class="mdui-list-item mdui-ripple {{if .isban}} mdui-list-item-active  {{end}}">
+                <i class="mdui-list-item-icon mdui-icon material-icons">block</i>
+                <div class="mdui-list-item-content">封禁管理</div>
+            </a>
+            <a href="/admin/{{$.Adminurl}}/limitips"
+                class="mdui-list-item mdui-ripple {{if .islimitips}} mdui-list-item-active  {{end}}">
+                <i class="mdui-list-item-icon mdui-icon material-icons">alarm</i>
+                <div class="mdui-list-item-content">临时限制管理</div>
+            </a>
+        </ul>
+    </div>
+
+    <div class="mdui-container mdui-p-t-2" style="width: 100%;">
         {{.LayoutContent}}
     </div>
     {{if .remessage}}

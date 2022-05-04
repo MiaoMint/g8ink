@@ -1,0 +1,34 @@
+
+<div id="LimitIps">
+
+
+    <div class="mdui-table-fluid">
+        <table class="mdui-table">
+            <thead>
+                <tr>
+                    <th>Ip</th>
+                    <th>Count</th>
+                    <th>Time</th>
+                    <th>WaitTime</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .LimitIpList}}
+                <tr>
+                    <td>{{.Ip}}</td>
+                    <td>{{.Count}}</td>
+                    <td>{{.Time}}</td>
+                    <td>{{.WaitTime}}</td>
+                    <td>
+                        <a href="/admin/{{$.Adminurl}}/api/DeleteLimitIp?ip={{.Ip}}"
+                            class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" mdui-tooltip="{content: '删除'}">
+                            <i class="mdui-icon material-icons">delete</i>
+                        </a>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</div>

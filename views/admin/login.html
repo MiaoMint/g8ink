@@ -1,12 +1,37 @@
-<div class="mdui-valign" style="min-height: 100vh;">
-    <div class="mdui-center" style="width: 600px;">
-        <h1>登录</h1>
-        <form method="post">
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                <label class="mdui-textfield-label">password</label>
-                <input class="mdui-textfield-input" type="password" name="Password" required/>
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.title}}-G8INK</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/mdui/1.0.2/css/mdui.min.css" crossorigin="anonymous" />
+    <script src="https://cdn.staticfile.org/mdui/1.0.2/js/mdui.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="mdui-container" style="width: 100%;">
+        <div class="mdui-valign" style="min-height: 100vh;">
+            <div class="mdui-center" style="width: 600px;">
+                <h1>登录</h1>
+                <form method="post">
+                    <div class="mdui-textfield mdui-textfield-floating-label">
+                        <label class="mdui-textfield-label">password</label>
+                        <input class="mdui-textfield-input" type="password" name="Password" required />
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-</div>
-</div>
+    </div>
+    {{if .remessage}}
+    <script>
+        mdui.snackbar({
+            message: '{{.remessage}}'
+        });
+    </script>
+    {{end}}
+</body>
+
+</html>
