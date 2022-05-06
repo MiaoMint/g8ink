@@ -153,7 +153,7 @@ func (c *AdminController) Limitips() {
 }
 
 //删除link
-// @router /api/DeleteLink [get]
+// @router /api/DeleteLink [post,get]
 func (c *AdminController) DeleteLink() {
 	Id := c.GetString("id")
 	err := models.UrlDelete(Id)
@@ -165,7 +165,7 @@ func (c *AdminController) DeleteLink() {
 }
 
 //添加ban
-// @router /api/AddBan [get]
+// @router /api/AddBan [post,get]
 func (c *AdminController) AddBan() {
 	Target := c.GetString("Target")
 	Type := c.GetString("Type")
@@ -180,7 +180,7 @@ func (c *AdminController) AddBan() {
 }
 
 //删除ban
-// @router /api/DeleteBan [get]
+// @router /api/DeleteBan [post,get]
 func (c *AdminController) DeleteBan() {
 	Id := c.GetString("id")
 	err := models.BanDelete(Id)
@@ -194,7 +194,7 @@ func (c *AdminController) DeleteBan() {
 }
 
 // 解除临时限制ip
-// @router /api/DeleteLimitIp [get]
+// @router /api/DeleteLimitIp [post,get]
 func (c *AdminController) DeleteLimitIp() {
 	Ip := c.GetString("ip")
 	tools.DeleteLimitIp(Ip)

@@ -20,7 +20,7 @@ func init() {
         beego.ControllerComments{
             Method: "AddBan",
             Router: `/api/AddBan`,
-            AllowHTTPMethods: []string{"get"},
+            AllowHTTPMethods: []string{"post","get"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
@@ -29,7 +29,7 @@ func init() {
         beego.ControllerComments{
             Method: "DeleteBan",
             Router: `/api/DeleteBan`,
-            AllowHTTPMethods: []string{"get"},
+            AllowHTTPMethods: []string{"post","get"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
@@ -38,7 +38,7 @@ func init() {
         beego.ControllerComments{
             Method: "DeleteLimitIp",
             Router: `/api/DeleteLimitIp`,
-            AllowHTTPMethods: []string{"get"},
+            AllowHTTPMethods: []string{"post","get"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
@@ -47,7 +47,7 @@ func init() {
         beego.ControllerComments{
             Method: "DeleteLink",
             Router: `/api/DeleteLink`,
-            AllowHTTPMethods: []string{"get"},
+            AllowHTTPMethods: []string{"post","get"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
