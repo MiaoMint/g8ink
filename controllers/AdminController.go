@@ -22,6 +22,7 @@ var nowpage int
 // 提示信息
 var remessage string
 
+// @router / [post,get]
 func (c *AdminController) Login() {
 	c.Data["title"] = "登录"
 
@@ -43,6 +44,7 @@ func (c *AdminController) Login() {
 	}
 }
 
+// @router /home [get]
 func (c *AdminController) Home() {
 	c.Data["title"] = "后台管理"
 	c.Data["remessage"] = remessage
@@ -68,6 +70,7 @@ func (c *AdminController) Home() {
 }
 
 // 短链接管理页面
+// @router /links [get]
 func (c *AdminController) Links() {
 	c.Data["title"] = "短链接管理"
 	c.Data["islinks"] = 1
@@ -110,6 +113,7 @@ func (c *AdminController) Links() {
 }
 
 // 封禁管理页面
+// @router /ban [get]
 func (c *AdminController) Ban() {
 	c.Data["title"] = "封禁管理"
 	c.Data["isban"] = 1
@@ -130,6 +134,7 @@ func (c *AdminController) Ban() {
 }
 
 // 临时封禁管理页面
+// @router /limitips [get]
 func (c *AdminController) Limitips() {
 	c.Data["title"] = "临时封禁管理"
 	c.Data["islimitips"] = 1
@@ -148,6 +153,7 @@ func (c *AdminController) Limitips() {
 }
 
 //删除link
+// @router /api/DeleteLink [post]
 func (c *AdminController) DeleteLink() {
 	Id := c.GetString("id")
 	err := models.UrlDelete(Id)
@@ -159,6 +165,7 @@ func (c *AdminController) DeleteLink() {
 }
 
 //添加ban
+// @router /api/AddBan [post]
 func (c *AdminController) AddBan() {
 	Target := c.GetString("Target")
 	Type := c.GetString("Type")
@@ -173,6 +180,7 @@ func (c *AdminController) AddBan() {
 }
 
 //删除ban
+// @router /api/DeleteBan [post]
 func (c *AdminController) DeleteBan() {
 	Id := c.GetString("id")
 	err := models.BanDelete(Id)
@@ -186,6 +194,7 @@ func (c *AdminController) DeleteBan() {
 }
 
 // 解除临时限制ip
+// @router /api/DeleteLimitIp [post]
 func (c *AdminController) DeleteLimitIp() {
 	Ip := c.GetString("ip")
 	tools.DeleteLimitIp(Ip)
