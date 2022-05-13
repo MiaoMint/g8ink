@@ -5,6 +5,7 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/task"
@@ -42,7 +43,9 @@ func init() {
 
 // 限流访问 返回false代表许可 返回true代表禁止
 func LimitAccess(Ip string) bool {
-
+	if orm.NewOrm().QueryTable("WhiteList").Filter("Ip", Ip).Exist() {
+		return false
+	}
 	// 判断是否超过被罚时间超过清0
 	if IP_CACHE[Ip].WaitTime != 0 && time.Now().Unix() > IP_CACHE[Ip].WaitTime {
 		IP_CACHE[Ip] = ipCache{Ip: Ip, Count: 1, Time: 0, WaitTime: 0}

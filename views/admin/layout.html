@@ -43,6 +43,11 @@
                 <i class="mdui-list-item-icon mdui-icon material-icons">alarm</i>
                 <div class="mdui-list-item-content">临时限制管理</div>
             </a>
+            <a href="/admin/{{$.Adminurl}}/whitelist"
+                class="mdui-list-item mdui-ripple {{if .iswhitelist}} mdui-list-item-active  {{end}}">
+                <i class="mdui-list-item-icon mdui-icon material-icons">assignment_ind</i>
+                <div class="mdui-list-item-content">白名单</div>
+            </a>
         </ul>
     </div>
 

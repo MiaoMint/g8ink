@@ -29,7 +29,7 @@ func init() {
 	}
 
 	// 注册表
-	orm.RegisterModel(new(Url), new(Ban))
+	orm.RegisterModel(new(Url), new(Ban), new(WhiteList))
 
 	// 同步表
 	orm.RunSyncdb("default", false, true)

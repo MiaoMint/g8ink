@@ -1,0 +1,42 @@
+<div id="whitelist">
+    <div class="mdui-m-b-2">
+        <form action="/admin/{{$.Adminurl}}/api/AddWhiteList" class="mdui-col" method="post">
+            <div class="mdui-valign">
+                <div class="mdui-textfield mdui-m-b-1" style="width: 100%;">
+                    <input class="mdui-textfield-input" type="text" name="ip"  placeholder="IP" required />
+                </div>
+                <button class="mdui-btn mdui-m-l-2 mdui-btn-dense mdui-color-red mdui-ripple">
+                    添加
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mdui-table-fluid">
+        <table class="mdui-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Ip</th>
+                    <th>Time</th>
+                    <th>delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .WhiteList}}
+                <tr>
+                    <td>{{.Id}}</td>
+                    <td>{{.Ip}}</td>
+                    <td>{{.Time}}</td>
+                    <td>
+                        <a href="/admin/{{$.Adminurl}}/api/DeleteWhiteList?id={{.Id}}"
+                            class="mdui-btn mdui-btn-icon mdui-color-red mdui-ripple" mdui-tooltip="{content: '删除'}">
+                            <i class="mdui-icon material-icons">delete</i>
+                        </a>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</div>

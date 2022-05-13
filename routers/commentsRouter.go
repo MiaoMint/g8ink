@@ -27,6 +27,15 @@ func init() {
 
     beego.GlobalControllerRouter["g8ink/controllers:AdminController"] = append(beego.GlobalControllerRouter["g8ink/controllers:AdminController"],
         beego.ControllerComments{
+            Method: "AddWhiteList",
+            Router: `/api/AddWhiteList`,
+            AllowHTTPMethods: []string{"post","get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["g8ink/controllers:AdminController"] = append(beego.GlobalControllerRouter["g8ink/controllers:AdminController"],
+        beego.ControllerComments{
             Method: "DeleteBan",
             Router: `/api/DeleteBan`,
             AllowHTTPMethods: []string{"post","get"},
@@ -47,6 +56,15 @@ func init() {
         beego.ControllerComments{
             Method: "DeleteLink",
             Router: `/api/DeleteLink`,
+            AllowHTTPMethods: []string{"post","get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["g8ink/controllers:AdminController"] = append(beego.GlobalControllerRouter["g8ink/controllers:AdminController"],
+        beego.ControllerComments{
+            Method: "DeleteWhiteList",
+            Router: `/api/DeleteWhiteList`,
             AllowHTTPMethods: []string{"post","get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -83,6 +101,15 @@ func init() {
         beego.ControllerComments{
             Method: "Links",
             Router: `/links`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["g8ink/controllers:AdminController"] = append(beego.GlobalControllerRouter["g8ink/controllers:AdminController"],
+        beego.ControllerComments{
+            Method: "WhiteList",
+            Router: `/whitelist`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,

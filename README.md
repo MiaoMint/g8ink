@@ -4,7 +4,7 @@
 
 ![首页](https://s1.ax1x.com/2022/04/26/LbEqns.png)
 
-![后台](https://s1.ax1x.com/2022/04/26/LbVuge.png)
+![后台](https://s1.ax1x.com/2022/05/13/OskjBQ.png)
 
 # 环境变量各项参数说明
  - `DATABASE_URL` 数据库

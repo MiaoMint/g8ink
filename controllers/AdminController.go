@@ -122,7 +122,7 @@ func (c *AdminController) Ban() {
 	c.Data["remessage"] = remessage
 
 	//获取被ban列表
-	ban := []models.Ban{}
+	ban := []*models.Ban{}
 	o.QueryTable("ban").All(&ban)
 	c.Data["Banlist"] = &ban
 	c.Layout = "admin/layout.html"
@@ -152,6 +152,26 @@ func (c *AdminController) Limitips() {
 
 }
 
+// 白名单管理页面
+// @router /whitelist [get]
+func (c *AdminController) WhiteList() {
+	c.Data["title"] = "临时封禁管理"
+	c.Data["iswhitelist"] = 1
+
+	c.Data["remessage"] = remessage
+
+	o := orm.NewOrm()
+	whitelist := []*models.WhiteList{}
+	o.QueryTable("WhiteList").All(&whitelist)
+	c.Data["WhiteList"] = &whitelist
+
+	c.Layout = "admin/layout.html"
+	c.TplName = "admin/whitelist.html"
+	c.Data["Adminurl"] = tools.GetAdminUrl()
+
+	remessage = ""
+}
+
 //删除link
 // @router /api/DeleteLink [post,get]
 func (c *AdminController) DeleteLink() {
@@ -167,9 +187,11 @@ func (c *AdminController) DeleteLink() {
 //添加ban
 // @router /api/AddBan [post,get]
 func (c *AdminController) AddBan() {
-	Target := c.GetString("Target")
-	Type := c.GetString("Type")
-	err := models.BanInsert(Type, Target)
+	ban := models.Ban{
+		Target: c.GetString("Target"),
+		Type:   c.GetString("Type"),
+	}
+	_, err := ban.Insert()
 	remessage = "添加成功"
 	if err != nil {
 		remessage = err.Error()
@@ -182,8 +204,11 @@ func (c *AdminController) AddBan() {
 //删除ban
 // @router /api/DeleteBan [post,get]
 func (c *AdminController) DeleteBan() {
-	Id := c.GetString("id")
-	err := models.BanDelete(Id)
+	Id, _ := c.GetInt("id")
+	ban := models.Ban{
+		Id: Id,
+	}
+	_, err := ban.Delete()
 	remessage = "删除成功"
 	if err != nil {
 		remessage = err.Error()
@@ -200,4 +225,33 @@ func (c *AdminController) DeleteLimitIp() {
 	tools.DeleteLimitIp(Ip)
 	remessage = "解除限制成功"
 	c.Redirect("/admin/"+tools.GetAdminUrl()+"/limitips", 302)
+}
+
+// 添加白名单ip
+// @router /api/AddWhiteList [post,get]
+func (c *AdminController) AddWhiteList() {
+	whitelist := models.WhiteList{
+		Ip: c.GetString("ip"),
+	}
+	_, err := whitelist.Insert()
+	remessage = "添加成功"
+	if err != nil {
+		remessage = err.Error()
+	}
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/whitelist", 302)
+}
+
+// 删除白名单ip
+// @router /api/DeleteWhiteList [post,get]
+func (c *AdminController) DeleteWhiteList() {
+	Id, _ := c.GetInt("id")
+	whitelist := models.WhiteList{
+		Id: Id,
+	}
+	_, err := whitelist.Delete()
+	remessage = "删除成功"
+	if err != nil {
+		remessage = err.Error()
+	}
+	c.Redirect("/admin/"+tools.GetAdminUrl()+"/whitelist", 302)
 }
