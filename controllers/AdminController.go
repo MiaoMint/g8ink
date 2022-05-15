@@ -27,7 +27,7 @@ func (c *AdminController) Login() {
 	c.Data["title"] = "登录"
 
 	// 判断是否登录 登录了302到后台首页
-	if c.GetSession("Password") != ADMIN_LOGIN_PASS {
+	if s, _ := c.GetSecureCookie(tools.GetCookiePass(), "Password"); s != ADMIN_LOGIN_PASS {
 		c.TplName = "admin/login.html"
 	} else {
 		c.Redirect("/admin/"+tools.GetAdminUrl()+"/home", 302)
@@ -36,7 +36,7 @@ func (c *AdminController) Login() {
 	// 登录请求
 	if c.Ctx.Input.Method() == "POST" {
 		if c.GetString("Password") == ADMIN_LOGIN_PASS {
-			c.SetSession("Password", ADMIN_LOGIN_PASS)
+			c.SetSecureCookie(tools.GetCookiePass(), "Password", ADMIN_LOGIN_PASS)
 			c.Redirect("/admin/"+tools.GetAdminUrl()+"/home", 302)
 		} else {
 			c.Data["remessage"] = "密码错误"

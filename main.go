@@ -16,7 +16,8 @@ func main() {
 
 	//过滤未登录的
 	var FilterUser = func(ctx *context.Context) {
-		if ctx.Input.Session("Password") != ADMIN_LOGIN_PASS {
+		pass, ok := ctx.GetSecureCookie(tools.GetCookiePass(), "Password")
+		if !ok || pass != ADMIN_LOGIN_PASS {
 			ctx.Abort(404, "404")
 		}
 	}
