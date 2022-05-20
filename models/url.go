@@ -10,13 +10,13 @@ import (
 type Url struct {
 	Id int
 	// 生成短链接后缀
-	ShortCode string
+	ShortCode string `orm:"index"`
 
 	// 原链接
-	OriginalUrl string
+	OriginalUrl string `orm:"index"`
 
 	// 生成时的ip
-	Ip string
+	Ip string `orm:"index"`
 
 	// 生成时的时间
 	Time time.Time `orm:"auto_now_add;type(datetime)"`

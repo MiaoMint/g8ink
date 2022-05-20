@@ -8,7 +8,7 @@ import (
 
 type WhiteList struct {
 	Id   int
-	Ip   string
+	Ip   string    `orm:"index"`
 	Time time.Time `orm:"auto_now_add;type(datetime)"`
 }
 
