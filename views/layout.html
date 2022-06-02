@@ -25,13 +25,14 @@
   {{.LayoutContent}}
   <footer>
     <p>
-    <div>您生成了{{.unum}}个短链接</div>
-    <div>本站共生成了{{.gnum}}个短链接</div>
+    <div>您生成了{{.userUrlNum}}个短链接</div>
+    <div>本站共生成了{{.allUrlNum}}个短链接</div>
     </p>
     <p> © 2022-{{.year}} G8.INK | 由<a href="https://g8.ink/G3bXYU" target="_blank">Erhecy</a> 打造 | <a
         href="https://g8.ink/kBdOlf" target="_blank">API接口</a> </p>
   </footer>
 
+  {{str2html .WEB_SCRIPT}}
 </body>
 
 </html>

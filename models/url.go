@@ -22,13 +22,13 @@ type Url struct {
 	Time time.Time `orm:"auto_now_add;type(datetime)"`
 }
 
-func UrlInsert(shortcode string, originalurl string, ip string) error {
+func (m *Url) Insert() error {
 	o := orm.NewOrm()
-	_, err := o.Insert(&Url{ShortCode: shortcode, OriginalUrl: originalurl, Ip: ip})
+	_, err := o.Insert(m)
 	return err
 }
 
-func UrlDelete(Id string) error {
+func Delete(Id string) error {
 	o := orm.NewOrm()
 	_, err := o.QueryTable("url").Filter("Id", Id).Delete()
 	return err

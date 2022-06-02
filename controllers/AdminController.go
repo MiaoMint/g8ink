@@ -14,8 +14,6 @@ type AdminController struct {
 	beego.Controller
 }
 
-var ADMIN_LOGIN_PASS, _ = beego.AppConfig.String("ADMIN_LOGIN_PASS")
-
 // 短链接列表当前页面
 var nowpage int
 
@@ -27,7 +25,7 @@ func (c *AdminController) Login() {
 	c.Data["title"] = "登录"
 
 	// 判断是否登录 登录了302到后台首页
-	if s, _ := c.GetSecureCookie(tools.GetCookiePass(), "Password"); s != ADMIN_LOGIN_PASS {
+	if s, _ := c.GetSecureCookie(tools.GetCookiePass(), "Password"); s != tools.ADMIN_LOGIN_PASS {
 		c.TplName = "admin/login.html"
 	} else {
 		c.Redirect("/admin/"+tools.GetAdminUrl()+"/home", 302)
@@ -35,8 +33,8 @@ func (c *AdminController) Login() {
 
 	// 登录请求
 	if c.Ctx.Input.Method() == "POST" {
-		if c.GetString("Password") == ADMIN_LOGIN_PASS {
-			c.SetSecureCookie(tools.GetCookiePass(), "Password", ADMIN_LOGIN_PASS)
+		if c.GetString("Password") == tools.ADMIN_LOGIN_PASS {
+			c.SetSecureCookie(tools.GetCookiePass(), "Password", tools.ADMIN_LOGIN_PASS)
 			c.Redirect("/admin/"+tools.GetAdminUrl()+"/home", 302)
 		} else {
 			c.Data["remessage"] = "密码错误"
@@ -76,19 +74,12 @@ func (c *AdminController) Links() {
 	c.Data["islinks"] = 1
 
 	url := []models.Url{}
-	linkpage, _ := c.GetInt("page")
-
-	if linkpage == 1 || linkpage == 0 {
-		linkpage = 0
-		nowpage = 1
-	} else {
-		linkpage = linkpage - 1
-		nowpage = linkpage + 1
-	}
+	page, _ := c.GetInt("page")
+	nowpage = page
 
 	o := orm.NewOrm()
 
-	o.QueryTable("url").OrderBy("-Id").Limit(20, linkpage*20).All(&url)
+	o.QueryTable("url").OrderBy("-Id").Limit(20, (page-1)*20).All(&url)
 	c.Data["Linklist"] = &url
 
 	c.Data["gnum"], _ = o.QueryTable("url").Count()
@@ -97,13 +88,13 @@ func (c *AdminController) Links() {
 	c.Data["Linkpagenum"] = math.Ceil(float64(c.Data["gnum"].(int64)) / (float64)(20))
 
 	// lnik列表当前页码
-	c.Data["Linkpage"] = nowpage
+	c.Data["Linkpage"] = page
 
 	// link列表下一页页码
-	c.Data["Linknextpage"] = nowpage + 1
+	c.Data["Linknextpage"] = page + 1
 
 	// link列表上一页页码
-	c.Data["Linkpreviouspage"] = nowpage - 1
+	c.Data["Linkpreviouspage"] = page - 1
 
 	c.Data["Adminurl"] = tools.GetAdminUrl()
 	c.Data["remessage"] = remessage
@@ -176,7 +167,7 @@ func (c *AdminController) WhiteList() {
 // @router /api/DeleteLink [post,get]
 func (c *AdminController) DeleteLink() {
 	Id := c.GetString("id")
-	err := models.UrlDelete(Id)
+	err := models.Delete(Id)
 	remessage = "删除成功"
 	if err != nil {
 		remessage = err.Error()

@@ -16,14 +16,16 @@ type MainController struct {
 }
 
 func (c *MainController) Home() {
-	c.Layout = "layout.html"
 	code := c.Ctx.Input.Param(":code")
+	c.Layout = "layout.html"
 	o := orm.NewOrm()
-	c.Data["WEB_BACKGROUND"], _ = beego.AppConfig.String("WEB_BACKGROUND")         //网页背景
-	c.Data["gnum"], _ = o.QueryTable("url").Count()                                //全站生成数量
-	c.Data["unum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count() //根据用户ip查找生成数量
+	c.Data["WEB_BACKGROUND"] = tools.WEB_BACKGROUND                                      //网页背景
+	c.Data["WEB_SCRIPT"] = tools.WEB_SCRIPT                                              // 网页页脚脚本
+	c.Data["allUrlNum"], _ = o.QueryTable("url").Count()                                 //全站生成数量
+	c.Data["userUrlNum"], _ = o.QueryTable("url").Filter("ip", c.Ctx.Input.IP()).Count() //根据用户ip查找生成数量
 	c.Data["year"] = time.Now().Year()
 
+	// 如果不是短链接则输出首页
 	if code == "" {
 		// 首页
 		c.TplName = "index.html"
@@ -54,13 +56,6 @@ func (c *MainController) Generate() {
 	re := make(map[string]interface{})
 	c.Data["json"] = &re
 
-	// 获取设定
-	HOST, _ := beego.AppConfig.String("HOST")
-	MAX_URL, _ := beego.AppConfig.Int("MAX_URL")
-	MAX_SHORTCODE, _ := beego.AppConfig.Int("MAX_SHORTCODE")
-	MIN_SHORTCODE, _ := beego.AppConfig.Int("MIN_SHORTCODE")
-	RAND_SHORTCODE, _ := beego.AppConfig.Int("RAND_SHORTCODE")
-
 	//获取表单数据
 	shortcode := c.GetString("code")
 	originalurl := c.GetString("url")
@@ -69,11 +64,11 @@ func (c *MainController) Generate() {
 
 	if shortcode != "" {
 		valid.AlphaNumeric(shortcode, "code").Message("自定义后缀只能为英文字符或数字")
-		valid.MinSize(shortcode, MIN_SHORTCODE, "code").Message("自定义后缀的最小长度为" + strconv.Itoa(MIN_SHORTCODE))
-		valid.MaxSize(shortcode, MAX_SHORTCODE, "code").Message("自定义后缀的最大长度为" + strconv.Itoa(MAX_SHORTCODE))
+		valid.MinSize(shortcode, tools.MIN_SHORTCODE, "code").Message("自定义后缀的最小长度为" + strconv.Itoa(tools.MIN_SHORTCODE))
+		valid.MaxSize(shortcode, tools.MAX_SHORTCODE, "code").Message("自定义后缀的最大长度为" + strconv.Itoa(tools.MAX_SHORTCODE))
 	}
 	valid.Required(originalurl, "url").Message("url不能为空")
-	valid.MaxSize(originalurl, MAX_URL, "url").Message("url最大长度为" + strconv.Itoa(MAX_URL))
+	valid.MaxSize(originalurl, tools.MAX_URL, "url").Message("url最大长度为" + strconv.Itoa(tools.MAX_URL))
 
 	if valid.HasErrors() {
 		re["Code"] = -1
@@ -102,7 +97,7 @@ func (c *MainController) Generate() {
 	existshortcode := tools.Urlexist(originalurl)
 	if existshortcode != "" {
 		re["Code"] = 200
-		re["Shorturl"] = HOST + "/" + existshortcode
+		re["Shorturl"] = tools.HOST + "/" + existshortcode
 		re["Message"] = "成功"
 		c.ServeJSON()
 		return
@@ -110,7 +105,7 @@ func (c *MainController) Generate() {
 
 	//生成code
 	if shortcode == "" {
-		shortcode = tools.Getshortcode(RAND_SHORTCODE)
+		shortcode = tools.Getshortcode(tools.RAND_SHORTCODE)
 	} else {
 		//判断短代码是否存在
 		if tools.Codeexist(shortcode) {
@@ -122,15 +117,21 @@ func (c *MainController) Generate() {
 
 	}
 
+	url := models.Url{
+		ShortCode:   shortcode,
+		OriginalUrl: originalurl,
+		Ip:          c.Ctx.Input.IP(),
+	}
+
 	//插入数据
-	err := models.UrlInsert(shortcode, originalurl, c.Ctx.Input.IP())
+	err := url.Insert()
 
 	if err != nil {
 		re["Code"] = -1
 		re["Message"] = "生成错误"
 	} else {
 		re["Code"] = 200
-		re["Shorturl"] = HOST + "/" + shortcode
+		re["Shorturl"] = tools.HOST + "/" + shortcode
 		re["Message"] = "成功"
 	}
 
