@@ -27,13 +27,17 @@ func main() {
 		if ctx.Input.Method() == "POST" && tools.LimitAccess(ctx.Input.IP()) {
 			re := make(map[string]interface{})
 			re["Code"] = -2
-			re["Message"] = "太快啦~~要玩坏啦~＞︿＜"
+			re["Message"] = "太快啦~~要被玩坏啦~＞︿＜"
 			ctx.Output.JSON(&re, true, false)
 		}
 	}
 
 	beego.InsertFilter("/admin/"+tools.GetAdminUrl()+"/api/*", beego.BeforeRouter, FilterUser)
 	beego.InsertFilter("/admin/"+tools.GetAdminUrl()+"/home", beego.BeforeRouter, FilterUser)
+	beego.InsertFilter("/admin/"+tools.GetAdminUrl()+"/links", beego.BeforeRouter, FilterUser)
+	beego.InsertFilter("/admin/"+tools.GetAdminUrl()+"/ban", beego.BeforeRouter, FilterUser)
+	beego.InsertFilter("/admin/"+tools.GetAdminUrl()+"/limitips", beego.BeforeRouter, FilterUser)
+	beego.InsertFilter("/admin/"+tools.GetAdminUrl()+"/whitelist", beego.BeforeRouter, FilterUser)
 
 	beego.InsertFilter("/", beego.BeforeRouter, FilterTimes)
 
