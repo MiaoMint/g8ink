@@ -22,4 +22,8 @@
 
 # Railway
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/I8RFvo?referralCode=OzVKh7)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/I8RFvo?referralCode=OzVKh7)[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FMiaoMint%2Fg8ink.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FMiaoMint%2Fg8ink?ref=badge_shield)
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FMiaoMint%2Fg8ink.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FMiaoMint%2Fg8ink?ref=badge_large)
